@@ -314,6 +314,8 @@
       letter-spacing: -0.05em; line-height: 0.9; color: var(--lime);
     }
     .gpa small { display: block; margin-top: 0.4rem; font-family: var(--sans); font-size: 0.95rem; font-weight: 500; letter-spacing: 0; color: var(--muted); }
+    .edu { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.5rem; align-items: end; margin-top: 1.4rem; }
+    .edu .gpa { margin: 0; text-align: right; }
 
     .contact-wrap { padding: 5rem 0 3.5rem; }
     .contact-panel {
@@ -346,7 +348,8 @@
     @media (max-width: 860px) {
       .desk { display: none; }
       .menu-btn { display: inline-flex; }
-      .skill-stage, .split, .contact-grid { grid-template-columns: 1fr; }
+      .skill-stage, .split, .contact-grid, .edu { grid-template-columns: 1fr; }
+      .edu .gpa { text-align: left; }
       .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .tabs { flex-direction: row; overflow-x: auto; max-width: 100%; padding-bottom: 0.2rem; }
       .tabs button { white-space: nowrap; }
@@ -420,7 +423,7 @@
     <a href="#performance">Performance</a>
     <a href="#experience">Experience</a>
     <a href="#skills">Skills</a>
-    <a href="#project">Project</a>
+    <a href="#education">Education</a>
     <a href="#contact">Contact</a>
     <a href="Mopuru-Pavanesh-Resume.pdf" download="Mopuru-Pavanesh-Resume.pdf">Resume</a>
   </div>
@@ -435,7 +438,7 @@
           <span class="mask"><span>Pavanesh</span></span>
         </h1>
         <p class="rotator"><span class="on" id="rotator">Senior Software Engineer</span></p>
-        <p class="lede">I design, build, and own production web systems at Way2News — React and Next.js on the surface, Node.js underneath, and the Kafka, Redis, and AWS work that keeps them fast.</p>
+        <p class="lede">Four years owning production systems at Way2News — React and Next.js on the surface, Node.js underneath, and the Kafka, Redis, and AWS work that keeps them fast.</p>
         <div class="actions">
           <a class="btn solid" href="mailto:pavanesh9652@gmail.com?subject=Full-stack%20engineering%20role">Email Pavanesh</a>
           <a class="btn ghost resume" href="Mopuru-Pavanesh-Resume.pdf" download="Mopuru-Pavanesh-Resume.pdf">Download resume</a>
@@ -508,7 +511,7 @@
                 <div class="track after"><i style="--w:100%"></i></div>
               </div>
             </div>
-            <p>Redis, geo-targeted priority, and pre-materialized payloads, with Next.js Edge widgets. Redis reads stayed under a millisecond.</p>
+            <p>Redis, geo-targeted sorting, and pre-materialized payloads, with Next.js Edge widgets. Redis reads stayed under a millisecond.</p>
             <div class="flow" aria-hidden="true"><b>Edge widget</b><i></i><b>API</b><i></i><b>Redis</b><i></i><b>Payload</b></div>
           </article>
         </div>
@@ -519,7 +522,7 @@
       <div class="wrap">
         <p class="kicker section-kicker">02 — Experience</p>
         <h2 id="exp-title" class="reveal">Way2News</h2>
-        <p class="section-lead reveal">October 2022 — Present. From the early build, through the platform, to the senior seat.</p>
+        <p class="section-lead reveal">Hyderabad · October 2022 — Present. From the early build, through the platform, to the senior seat.</p>
         <div class="timeline" id="timeline">
           <div class="rail" aria-hidden="true"><span id="rail"></span></div>
 
@@ -529,17 +532,17 @@
                 <h3>Senior Software Engineer</h3>
                 <p class="when"><time datetime="2026-06">June 2026</time> — Present</p>
               </div>
-              <p class="org">Way2News</p>
-              <p class="lead">Rebuilt the legacy booking flow, then the production work around it: push, invoicing, AWS cost, and a Kafka path that now holds four times the impression volume.</p>
+              <p class="org">Way2News · Hyderabad</p>
+              <p class="lead">The senior work is the production path: a Kafka consumer that now holds 4× the impressions, a 40% smaller AWS bill, and a booking product rebuilt from scratch.</p>
               <ul>
-                <li><strong>Rebuilt the booking module from scratch</strong> as a mobile-first SPA (React 18, Vite 6) on an ~80-endpoint ESM API (Node 24, Express 5). It covers single-device JWT auth, a slot calendar, multi-unit orders, discount and finance approvals, creative workflow, and payment collections — on PostgreSQL, MySQL, MongoDB, S3, Socket.IO, and Docker.</li>
-                <li><strong>Led cross-platform push</strong> with Android and iOS so booking status and approval events reach the web app and the native apps together.</li>
-                <li><strong>Cut AWS infrastructure cost by 40%</strong>, from $10,000 to $6,000 a month, at 20 million requests a day.</li>
-                <li><strong>Replaced a monthly CSV invoicing process</strong> with Zoho Billing. Finance creates, reviews, and tracks invoices in the product, reconciled against actual spend.</li>
-                <li><strong>Cleared a Kafka consumer bottleneck</strong> when daily impressions grew from 50 million to 200 million. Batch accumulation and bulk writes cut database writes by ~67% and sustained 4× the original traffic at a lower server bill.</li>
+                <li><strong>Fixed a Kafka consumer bottleneck</strong> that spiked CPU and bandwidth as daily impressions grew from 50 million to 200 million. Threshold-based batching and bulk writes replaced three MongoDB increments per event, cutting database writes ~67% and sustaining 4× traffic at a lower server cost.</li>
+                <li><strong>Cut AWS costs 40%</strong>, from $10,000 to $6,000 a month, on a system serving 20 million requests a day — minification, Gzip, and bundle restructuring.</li>
+                <li><strong>Rebuilt a legacy booking module</strong> as a mobile-first SPA (React 18, Vite) on an ~80-endpoint Node 24 and Express 5 API. It covers a slot calendar, multi-unit booking, approval routing, and payment collections, on PostgreSQL, MySQL, MongoDB, and Socket.IO.</li>
+                <li><strong>Led cross-platform push</strong> with Android and iOS developers, so booking and approval alerts arrive on the web app and the native apps.</li>
+                <li><strong>Replaced a manual monthly CSV invoicing process</strong> with Zoho Billing. Finance creates and tracks invoices in the product, with automated reconciliation against delivered spend.</li>
               </ul>
               <ul class="chips">
-                <li>React 18</li><li>Vite 6</li><li>Node 24</li><li>Express 5</li><li>PostgreSQL</li><li>MySQL</li><li>MongoDB</li><li>S3</li><li>Socket.IO</li><li>Docker</li><li>Kafka</li><li>Zoho Billing</li><li>AWS</li>
+                <li>React 18</li><li>Vite</li><li>Node 24</li><li>Express 5</li><li>PostgreSQL</li><li>MySQL</li><li>MongoDB</li><li>Socket.IO</li><li>Kafka</li><li>Zoho Billing</li><li>AWS</li>
               </ul>
             </div>
           </article>
@@ -550,17 +553,17 @@
                 <h3>Junior Software Engineer</h3>
                 <p class="when"><time datetime="2023-06">June 2023</time> — <time datetime="2026-05">May 2026</time></p>
               </div>
-              <p class="org">Way2News</p>
-              <p class="lead">Core engineer on a two-person team that built the internal operations platform, then the pipelines, payments, ads, and reporting on top of it.</p>
+              <p class="org">Way2News · Hyderabad</p>
+              <p class="lead">One of two core engineers on the internal operations platform, then the pipelines, payments, ads, and reporting on top of it.</p>
               <ul>
-                <li><strong>Architected the internal platform from scratch</strong> — 80+ screens, 440+ REST APIs across 95+ modules, RBAC for 8 roles — with React, Redux, Node.js, and Express on PostgreSQL, MySQL, MongoDB, Redis, ClickHouse, and SQLite.</li>
-                <li><strong>Built Kafka pipelines</strong> with KafkaJS, multi-threaded producers and consumers, millions of events a day into PostgreSQL, MongoDB, Redis, and ClickHouse. Redis reads stayed under a millisecond.</li>
-                <li><strong>Ran nightly aggregation</strong> for 1,500+ tracked entities into pre-computed PostgreSQL tables, feeding 30+ finance and planning reports while ClickHouse took the analytical queries.</li>
-                <li><strong>Shipped a Google Ad Manager and AdMob microservice</strong> for scheduled reports, inventory configuration, and bulk orders from the internal console.</li>
-                <li><strong>Put maker-checker approvals</strong> on financial configuration and pricing, with a timestamped audit trail on every state change.</li>
-                <li><strong>Integrated Cashfree</strong> for in-app orders, live payment status, and reconciliation through HMAC-signed webhooks and server-to-server settlement callbacks.</li>
-                <li><strong>Delivered a content API at ~150K requests a minute</strong> with Redis, geo-targeted priority, and pre-materialized payloads, plus Next.js Edge widgets. The work contributed to a 10% revenue increase.</li>
-                <li><strong>Launched an LLM-backed BI workspace</strong> with natural language to SQL, Debezium CDC, Kafka, ClickHouse materialized views, multi-tenant RBAC, and CSV/XLSX export. It replaced 5+ per-team reporting tools.</li>
+                <li><strong>Launched an LLM-powered BI platform</strong> in the style of Looker: natural language to SQL, a real-time pipeline (Debezium CDC, Kafka, ClickHouse materialized views), multi-tenant RBAC dashboards, and CSV/XLSX export. It replaced 5+ per-team reporting tools.</li>
+                <li><strong>Architected the internal platform from scratch</strong> — 80+ screens, 440+ REST APIs, and RBAC for 8 roles — with React, Redux, Node.js, PostgreSQL, MySQL, MongoDB, Redis, and ClickHouse.</li>
+                <li><strong>Shipped a content system at ~150K requests a minute</strong> with a Redis-backed API, geo-targeted sorting, pre-materialized payloads, and Next.js Edge widgets. It contributed to a 10% revenue increase.</li>
+                <li><strong>Built Kafka pipelines</strong> with KafkaJS, processing millions of events a day into PostgreSQL, MongoDB, Redis, and ClickHouse. Redis caching delivered sub-millisecond reads.</li>
+                <li><strong>Automated nightly aggregation</strong> over 1,500+ entities into pre-computed PostgreSQL tables, powering 30+ finance and planning reports while ClickHouse took the analytical load.</li>
+                <li><strong>Delivered Cashfree payments end to end</strong> — in-app orders, live status, and automated reconciliation through HMAC-signed webhooks and settlement callbacks.</li>
+                <li><strong>Built a Google Ad Manager and AdMob microservice</strong> for automated reports, inventory setup, and bulk order management, so operations no longer depends on the GAM UI.</li>
+                <li><strong>Implemented maker-checker approval</strong> for financial configuration and pricing, with a timestamped audit trail on every state change across all 8 roles.</li>
               </ul>
               <ul class="chips">
                 <li>React</li><li>Redux</li><li>Node.js</li><li>Express</li><li>Next.js</li><li>PostgreSQL</li><li>Redis</li><li>ClickHouse</li><li>KafkaJS</li><li>Debezium</li><li>Cashfree</li><li>Ad Manager</li><li>AdMob</li>
@@ -574,10 +577,10 @@
                 <h3>Trainee Software Engineer</h3>
                 <p class="when"><time datetime="2022-10">October 2022</time> — <time datetime="2023-06">June 2023</time></p>
               </div>
-              <p class="org">Way2News</p>
-              <p class="lead">Joined as a founding team member while the platform was still early, and helped set the patterns the later system kept.</p>
+              <p class="org">Way2News · Hyderabad</p>
+              <p class="lead">Founding team member during the platform’s early build.</p>
               <ul>
-                <li><strong>Contributed core React.js and Node.js features</strong> during the first build, joined system design discussions, and helped establish architecture patterns adopted across the platform.</li>
+                <li><strong>Shipped core React.js and Node.js features</strong>, joined system design discussions, and helped set architecture patterns used across the platform.</li>
               </ul>
               <ul class="chips"><li>React.js</li><li>Node.js</li><li>System design</li></ul>
             </div>
@@ -599,68 +602,54 @@
             <button type="button" role="tab" id="tab-data" aria-controls="panel-data" aria-selected="false">Data</button>
             <button type="button" role="tab" id="tab-cloud" aria-controls="panel-cloud" aria-selected="false">Cloud</button>
             <button type="button" role="tab" id="tab-integ" aria-controls="panel-integ" aria-selected="false">Integrations</button>
-            <button type="button" role="tab" id="tab-practice" aria-controls="panel-practice" aria-selected="false">Practices</button>
           </div>
           <div>
             <article class="skill-panel" id="panel-stream" role="tabpanel" aria-labelledby="tab-stream">
               <h3>Streaming</h3>
-              <p>Multi-threaded Kafka producers and consumers move millions of events a day. Batching the consumer took daily impressions from 50 million to 200 million and cut MongoDB writes by ~67%. Debezium CDC feeds the BI warehouse.</p>
-              <ul class="chips"><li>Apache Kafka</li><li>KafkaJS</li><li>Debezium CDC</li><li>Event-driven architecture</li><li>WebSocket / Socket.IO</li></ul>
+              <p>KafkaJS pipelines move millions of events a day into PostgreSQL, MongoDB, Redis, and ClickHouse. Batching the consumer took daily impressions from 50 million to 200 million and cut MongoDB writes by ~67%. Debezium CDC feeds the BI warehouse.</p>
+              <ul class="chips"><li>Apache Kafka</li><li>KafkaJS</li><li>Debezium CDC</li></ul>
             </article>
             <article class="skill-panel" id="panel-front" role="tabpanel" aria-labelledby="tab-front" hidden>
               <h3>Frontend</h3>
-              <p>The booking product is a mobile-first React 18 and Vite 6 SPA. The internal platform is 80+ screens on React and Redux. Next.js Edge widgets sit in front of the content API.</p>
-              <ul class="chips"><li>React.js 18</li><li>Next.js</li><li>App Router, SSR, Edge</li><li>Redux</li><li>Vite</li><li>Recharts</li><li>TypeScript</li><li>HTML &amp; CSS</li></ul>
+              <p>The booking product is a mobile-first React 18 and Vite SPA. The internal platform is 80+ screens on React and Redux. Next.js Edge widgets sit in front of the content API.</p>
+              <ul class="chips"><li>React.js</li><li>Next.js</li><li>SSR</li><li>Edge Runtime</li><li>Redux</li><li>Vite</li><li>TypeScript</li></ul>
             </article>
             <article class="skill-panel" id="panel-back" role="tabpanel" aria-labelledby="tab-back" hidden>
               <h3>Backend</h3>
-              <p>An ~80-endpoint ESM API on Node 24 and Express 5 runs booking. The wider platform is 440+ REST APIs across 95+ modules, including microservices for ads and payments.</p>
-              <ul class="chips"><li>Node.js 24</li><li>Express.js 5</li><li>REST design</li><li>Microservices</li><li>JavaScript</li><li>JWT</li><li>Joi</li></ul>
+              <p>An ~80-endpoint API on Node 24 and Express 5 runs booking. The wider platform is 440+ REST APIs, including microservices for ads and payments.</p>
+              <ul class="chips"><li>Node.js</li><li>Express.js</li><li>Microservices</li><li>REST APIs</li><li>Socket.IO</li><li>JWT</li><li>JavaScript</li></ul>
             </article>
             <article class="skill-panel" id="panel-data" role="tabpanel" aria-labelledby="tab-data" hidden>
               <h3>Data</h3>
               <p>Redis serves sub-millisecond reads at about 150K requests a minute. ClickHouse takes the analytical load. PostgreSQL holds the pre-computed nightly reports for 1,500+ entities.</p>
-              <ul class="chips"><li>PostgreSQL</li><li>MySQL</li><li>MongoDB</li><li>Redis</li><li>ClickHouse</li><li>SQLite</li><li>AWS S3</li><li>SQL</li></ul>
+              <ul class="chips"><li>PostgreSQL</li><li>MySQL</li><li>MongoDB</li><li>Redis</li><li>ClickHouse</li><li>AWS S3</li><li>SQL</li></ul>
             </article>
             <article class="skill-panel" id="panel-cloud" role="tabpanel" aria-labelledby="tab-cloud" hidden>
               <h3>Cloud</h3>
               <p>Minification, Gzip, and bundle restructuring took the AWS bill from $10,000 to $6,000 a month without dropping the 20 million requests a day.</p>
-              <ul class="chips"><li>AWS</li><li>Docker</li><li>Git</li><li>Bitbucket</li><li>Elastic APM</li></ul>
+              <ul class="chips"><li>AWS</li><li>Docker</li></ul>
             </article>
             <article class="skill-panel" id="panel-integ" role="tabpanel" aria-labelledby="tab-integ" hidden>
               <h3>Integrations</h3>
               <p>Cashfree for payments, Zoho Billing for invoices, Google Ad Manager and AdMob for ad operations, and LLM APIs for natural-language SQL in the BI workspace.</p>
               <ul class="chips"><li>Cashfree</li><li>Zoho Billing</li><li>Google Ad Manager</li><li>AdMob</li><li>LLM APIs</li></ul>
             </article>
-            <article class="skill-panel" id="panel-practice" role="tabpanel" aria-labelledby="tab-practice" hidden>
-              <h3>Practices</h3>
-              <p>RBAC for 8 roles, maker-checker on pricing, single-device JWT, and unit tests kept above 80% coverage. The early months were spent in system design as much as in features.</p>
-              <ul class="chips"><li>RBAC</li><li>System design</li><li>Unit testing</li><li>Jira</li><li>Data structures</li></ul>
-            </article>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="project" aria-labelledby="project-title">
+    <section id="education" aria-labelledby="edu-title">
       <div class="wrap">
-        <p class="kicker section-kicker">04 — Also</p>
-        <h2 id="project-title" class="reveal">Project and education.</h2>
-        <div class="split">
-          <article class="panel reveal">
-            <p class="kicker">Project</p>
-            <h3>Split Expense Management</h3>
-            <p>A full-stack expense splitter. React and Recharts show spending trends. Auth is OTP and JWT. People on a split message over WebSockets. More than 20 Node.js and PostgreSQL APIs handle the split, the balances, and settlement.</p>
-            <ul class="chips"><li>React.js</li><li>Recharts</li><li>Node.js</li><li>PostgreSQL</li><li>WebSocket</li><li>JWT</li><li>OTP</li></ul>
-          </article>
-          <article class="panel reveal" id="education">
-            <p class="kicker">Education</p>
-            <h3>B.Tech, Computer Science</h3>
+        <p class="kicker section-kicker">04 — Education</p>
+        <h2 id="edu-title" class="reveal">B.Tech, Computer Science.</h2>
+        <article class="panel reveal edu">
+          <div>
             <p>IIIT Rajiv Gandhi University of Knowledge and Technology (AP-IIIT)</p>
             <p><time datetime="2019-06">June 2019</time> — <time datetime="2023-05">May 2023</time></p>
-            <p class="gpa">8.78 <small>GPA out of 10.0</small></p>
-          </article>
-        </div>
+          </div>
+          <p class="gpa">8.78 <small>GPA out of 10.0</small></p>
+        </article>
       </div>
     </section>
 
