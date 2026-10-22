@@ -327,6 +327,7 @@
     }
     @keyframes border-spin { to { --spin: 360deg; } }
     .contact-panel h2 { max-width: none; }
+    .contact-panel > .btn { margin-top: 1.15rem; }
     .contact-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 1.6rem; }
     .contact-grid a { font-weight: 600; text-underline-offset: 0.18em; overflow-wrap: anywhere; }
     .mini { margin: 0 0 0.3rem; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--lime); }
@@ -357,7 +358,8 @@
       .role-top { flex-direction: column; gap: 0.3rem; }
       .when { white-space: normal; }
       .actions { display: grid; grid-template-columns: 1fr 1fr; }
-      .actions .btn:first-child { grid-column: 1 / -1; }
+      .actions .btn:first-child,
+      .actions .btn.resume { grid-column: 1 / -1; }
       footer .wrap { flex-direction: column; }
       .pill { display: none; }
     }
@@ -407,6 +409,7 @@
         <a href="#experience">Experience</a>
         <a href="#skills">Skills</a>
         <a href="#contact">Contact</a>
+        <a href="Mopuru-Pavanesh-Resume.pdf" download="Mopuru-Pavanesh-Resume.pdf">Resume</a>
       </nav>
       <a class="pill" href="mailto:pavanesh9652@gmail.com">Email</a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
@@ -419,6 +422,7 @@
     <a href="#skills">Skills</a>
     <a href="#project">Project</a>
     <a href="#contact">Contact</a>
+    <a href="Mopuru-Pavanesh-Resume.pdf" download="Mopuru-Pavanesh-Resume.pdf">Resume</a>
   </div>
 
   <main id="main">
@@ -434,6 +438,7 @@
         <p class="lede">I design, build, and own production web systems at Way2News — React and Next.js on the surface, Node.js underneath, and the Kafka, Redis, and AWS work that keeps them fast.</p>
         <div class="actions">
           <a class="btn solid" href="mailto:pavanesh9652@gmail.com?subject=Full-stack%20engineering%20role">Email Pavanesh</a>
+          <a class="btn ghost resume" href="Mopuru-Pavanesh-Resume.pdf" download="Mopuru-Pavanesh-Resume.pdf">Download resume</a>
           <a class="btn ghost" href="tel:+919441018339">+91 94410 18339</a>
           <a class="btn ghost" href="https://www.linkedin.com/in/mopuru-pavanesh-9b094015a" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </div>
@@ -664,6 +669,7 @@
         <p class="kicker">05 — Contact</p>
         <h2>Talk through the systems.</h2>
         <p class="section-lead">Hyderabad, India. Email, phone, or LinkedIn.</p>
+        <a class="btn solid" href="Mopuru-Pavanesh-Resume.pdf" download="Mopuru-Pavanesh-Resume.pdf">Download resume</a>
         <div class="contact-grid">
           <div>
             <p class="mini">Email</p>
