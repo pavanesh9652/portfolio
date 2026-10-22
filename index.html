@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mopuru Pavanesh — Full-Stack Software Engineer</title>
+  <meta name="description" content="Portfolio of Mopuru Pavanesh, full-stack software engineer in Hyderabad. React, Next.js, Node.js, Kafka, and production systems at Way2News.">
+  <meta name="author" content="Mopuru Pavanesh">
+  <meta name="theme-color" content="#07080b">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="Mopuru Pavanesh — Full-Stack Software Engineer">
+  <meta property="og:description" content="Production systems at Way2News. React, Node.js, Kafka, and the numbers behind them.">
+  <meta property="og:type" content="profile">
+  <meta property="og:locale" content="en_IN">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Mopuru Pavanesh — Full-Stack Software Engineer">
+  <meta name="twitter:description" content="Production systems at Way2News. React, Node.js, Kafka, and the numbers behind them.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23d6ff4a'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='Arial,sans-serif' font-size='12' font-weight='700' fill='%2307080b'%3EMP%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <script>document.documentElement.classList.add("js");</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Mopuru Pavanesh",
+    "jobTitle": "Full-Stack Software Engineer",
+    "email": "pavanesh9652@gmail.com",
+    "telephone": "+91-9441018339",
+    "address": { "@type": "PostalAddress", "addressLocality": "Hyderabad", "addressCountry": "IN" },
+    "worksFor": { "@type": "Organization", "name": "Way2News" },
+    "alumniOf": { "@type": "CollegeOrUniversity", "name": "IIIT Rajiv Gandhi University of Knowledge and Technology (AP-IIIT)" },
+    "sameAs": ["https://www.linkedin.com/in/mopuru-pavanesh-9b094015a"]
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #07080b;
+      --card: #12151c;
+      --card-2: #181c25;
+      --text: #f4f0e6;
+      --muted: #a39c90;
+      --line: rgba(244, 240, 230, 0.12);
+      --lime: #d6ff4a;
+      --ink: #11130a;
+      --display: "Syne", "Avenir Next", "Segoe UI", sans-serif;
+      --sans: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+    }
+
+    @property --spin {
+      syntax: "<angle>";
+      inherits: false;
+      initial-value: 0deg;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      text-rendering: optimizeLegibility;
+    }
+    ::selection { background: var(--lime); color: var(--ink); }
+    :focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    img, svg, canvas { max-width: 100%; }
+
+    .skip {
+      position: absolute;
+      left: 1rem;
+      top: -4rem;
+      background: var(--lime);
+      color: var(--ink);
+      padding: 0.55rem 0.8rem;
+      z-index: 120;
+    }
+    .skip:focus { top: 0.7rem; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    .progress {
+      position: fixed; inset: 0 0 auto 0; height: 2px; z-index: 90; pointer-events: none;
+    }
+    .progress span { display: block; height: 100%; width: 100%; background: var(--lime); transform: scaleX(0); transform-origin: left; }
+
+    .cursor {
+      position: fixed; left: 0; top: 0; width: 14px; height: 14px; margin: -7px 0 0 -7px;
+      border: 1px solid var(--lime); border-radius: 50%; pointer-events: none; z-index: 110;
+      opacity: 0; mix-blend-mode: difference;
+    }
+    @media (hover: none), (pointer: coarse) { .cursor { display: none; } }
+
+    #loader {
+      display: none;
+      position: fixed; inset: 0; z-index: 100; background: var(--bg);
+      align-items: flex-end; padding: 8vh 6vw 10vh;
+      transition: transform 0.8s cubic-bezier(.77,0,.18,1);
+    }
+    .js #loader { display: flex; }
+    body.ready #loader { transform: translateY(-102%); pointer-events: none; }
+    .loader-copy { width: min(920px, 100%); }
+    .loader-kicker {
+      margin: 0 0 1rem; font-family: var(--mono); letter-spacing: 0.16em;
+      text-transform: uppercase; font-size: 0.75rem; color: var(--lime);
+    }
+    .loader-num {
+      margin: 0; font-family: var(--display); font-weight: 800; letter-spacing: -0.06em;
+      font-size: clamp(5rem, 18vw, 11rem); line-height: 0.85;
+    }
+    .loader-bar { margin-top: 1.4rem; height: 2px; background: var(--line); }
+    .loader-bar span { display: block; height: 100%; width: 0; background: var(--lime); }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 70; height: 4.4rem;
+      display: flex; align-items: center;
+      background: rgba(7, 8, 11, 0.72);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid transparent;
+    }
+    .topbar.scrolled { border-bottom-color: var(--line); }
+    .wrap { width: min(1120px, calc(100% - 2.5rem)); margin-inline: auto; }
+    .topbar .wrap { display: flex; align-items: center; gap: 1rem; width: min(1120px, calc(100% - 2.5rem)); }
+    .brand { display: inline-flex; align-items: center; gap: 0.7rem; text-decoration: none; font-weight: 600; min-height: 44px; }
+    .brand svg { display: block; }
+    .desk { display: flex; gap: 1.15rem; margin-left: auto; }
+    .desk a { text-decoration: none; color: var(--muted); min-height: 44px; display: inline-flex; align-items: center; }
+    .desk a:hover { color: var(--text); }
+    .pill, .btn {
+      display: inline-flex; align-items: center; justify-content: center; min-height: 46px;
+      padding: 0.65rem 1rem; border-radius: 999px; text-decoration: none; font-weight: 600;
+      border: 1px solid transparent;
+    }
+    .pill, .btn.solid { background: var(--lime); color: var(--ink); }
+    .pill:hover, .btn.solid:hover { background: #e7ff8a; }
+    .btn.ghost { background: transparent; color: var(--text); border-color: var(--line); }
+    .btn.ghost:hover { border-color: var(--lime); color: var(--lime); }
+    .menu-btn {
+      display: none; margin-left: auto; min-height: 44px; padding: 0 0.9rem;
+      border-radius: 999px; border: 1px solid var(--line); background: transparent;
+      color: var(--text); font: inherit; font-weight: 600; cursor: pointer;
+    }
+
+    .overlay {
+      position: fixed; inset: 0; z-index: 65; background: rgba(7,8,11,0.96);
+      display: flex; flex-direction: column; justify-content: center; gap: 0.4rem;
+      padding: 6rem 1.5rem 2rem; opacity: 0; pointer-events: none; transform: translateY(-12px);
+      transition: opacity .35s ease, transform .35s ease;
+    }
+    .overlay.open { opacity: 1; pointer-events: auto; transform: none; }
+    .overlay a {
+      font-family: var(--display); font-weight: 750; font-size: clamp(2.4rem, 10vw, 4.2rem);
+      letter-spacing: -0.04em; text-decoration: none; line-height: 1.05;
+    }
+    .overlay a:hover { color: var(--lime); }
+
+    .hero { position: relative; min-height: 100svh; display: flex; align-items: flex-end; padding: 7rem 0 2.4rem; overflow: hidden; }
+    .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .hero-inner { position: relative; z-index: 1; width: min(1120px, calc(100% - 2.5rem)); margin-inline: auto; }
+    .kicker {
+      margin: 0 0 0.8rem; font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--lime);
+    }
+    h1, h2, h3 { font-family: var(--display); letter-spacing: -0.045em; line-height: 0.92; margin: 0; font-weight: 800; }
+    h1 { font-size: clamp(2.55rem, 10.2vw, 7.15rem); }
+    .mask { display: block; overflow: hidden; }
+    .js .mask > span { display: block; transform: translateY(110%); }
+    body.ready .mask > span { transform: none; transition: transform 1s cubic-bezier(.16,1,.3,1); }
+    .mask + .mask > span { transition-delay: .1s; }
+
+    .rotator { min-height: 1.6em; margin: 1.1rem 0 0; font-size: clamp(1.2rem, 2vw, 1.55rem); color: var(--muted); }
+    .rotator span { display: inline-block; opacity: 0; transform: translateY(10px); transition: opacity .35s, transform .35s; }
+    .rotator span.on { opacity: 1; transform: none; }
+    .lede { max-width: 46rem; margin: 1rem 0 0; color: #ddd6c8; font-size: 1.12rem; }
+    .actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.6rem; }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 0.8rem 1.4rem; margin-top: 2.4rem;
+      padding-top: 1.1rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.95rem;
+    }
+    .now { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text); }
+    .now i {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--lime); display: inline-block;
+      box-shadow: 0 0 0 0 rgba(214,255,74,0.7); animation: ping 2.2s infinite;
+    }
+    @keyframes ping { 70% { box-shadow: 0 0 0 8px transparent; } }
+
+    .marquee { overflow: hidden; border-block: 1px solid var(--line); background: #0b0d12; }
+    .marquee-track {
+      display: flex; gap: 0.4rem; width: max-content; padding: 0.85rem 0;
+      animation: ticker 36s linear infinite;
+    }
+    .marquee.reverse .marquee-track { animation-direction: reverse; animation-duration: 42s; }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+    .marquee span {
+      font-family: var(--display); font-weight: 700; letter-spacing: -0.03em;
+      font-size: clamp(1.2rem, 2vw, 1.7rem); padding-inline: 0.85rem; color: #ece7dc;
+    }
+    .marquee span em { font-style: normal; color: var(--lime); }
+    @keyframes ticker { to { transform: translateX(-50%); } }
+
+    section { padding: 5.5rem 0 0; scroll-margin-top: 5rem; }
+    .section-kicker { margin-bottom: 0.7rem; }
+    h2 { font-size: clamp(2.4rem, 5vw, 4.2rem); max-width: 14ch; }
+    .section-lead { max-width: 42rem; color: var(--muted); margin: 1rem 0 0; }
+
+    .js .reveal { opacity: 0; transform: translateY(28px); }
+    .reveal.in { opacity: 1; transform: none; transition: opacity .8s ease, transform .9s cubic-bezier(.16,1,.3,1); }
+
+    .stats {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 2.2rem;
+    }
+    .stat { background: var(--bg); padding: 1.4rem 1.2rem 1.3rem; min-width: 0; }
+    .stat b {
+      display: block; font-family: var(--display); font-weight: 800; letter-spacing: -0.05em;
+      font-size: clamp(2.6rem, 5vw, 4rem); line-height: 0.9; color: var(--lime);
+    }
+    .stat span { display: block; margin-top: 0.55rem; color: var(--muted); max-width: 22ch; }
+
+    .meters { display: grid; gap: 1rem; margin-top: 1.2rem; }
+    .meter { background: var(--card); border: 1px solid var(--line); padding: 1.15rem 1.2rem 1.2rem; }
+    .meter h3 { font-family: var(--sans); font-size: 1rem; font-weight: 600; letter-spacing: 0; line-height: 1.3; }
+    .meter p { margin: 0.7rem 0 0; color: var(--muted); }
+    .rows { display: grid; gap: 0.7rem; margin-top: 0.9rem; }
+    .row-label { display: flex; justify-content: space-between; gap: 1rem; font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+    .track { height: 8px; background: #090b10; border-radius: 99px; overflow: hidden; margin-top: 0.35rem; }
+    .track i {
+      display: block; height: 100%; width: var(--w); background: var(--lime); transform: scaleX(0); transform-origin: left;
+    }
+    .meter.in .track i { transform: scaleX(1); transition: transform 1.15s cubic-bezier(.16,1,.3,1); }
+    .track.after i { background: linear-gradient(90deg, #9dffd8, var(--lime)); }
+    .flow {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem; margin-top: 0.9rem;
+      font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .flow b { font-weight: 500; color: var(--text); }
+    .flow i {
+      width: 2.2rem; height: 1px; background: linear-gradient(90deg, var(--lime), transparent);
+      background-size: 200% 100%; animation: dash 1.4s linear infinite;
+    }
+    @keyframes dash { to { background-position: -200% 0; } }
+
+    .timeline { position: relative; margin-top: 2.2rem; padding-left: 1.4rem; }
+    .rail { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--line); }
+    .rail span { display: block; width: 100%; height: 100%; background: var(--lime); transform: scaleY(0); transform-origin: top; }
+    .role { position: relative; padding: 0 0 2rem 0.6rem; }
+    .role::before {
+      content: ""; position: absolute; left: -1.55rem; top: 0.45rem; width: 9px; height: 9px;
+      border-radius: 50%; background: var(--bg); border: 2px solid var(--lime);
+    }
+    .role-card {
+      background: var(--card); border: 1px solid var(--line); padding: 1.25rem 1.25rem 1.15rem;
+      transition: transform .35s ease, border-color .35s ease;
+    }
+    .role-card:hover { transform: translateY(-4px); border-color: rgba(214,255,74,0.45); }
+    .role-top { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; }
+    .role h3 { font-size: clamp(1.5rem, 2.4vw, 2rem); }
+    .when { margin: 0; font-family: var(--mono); font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
+    .org { margin: 0.25rem 0 0; color: var(--lime); font-size: 0.92rem; }
+    .lead { margin: 0.85rem 0 0; }
+    .role ul { margin: 0.8rem 0 0; padding: 0; list-style: none; }
+    .role li { position: relative; margin-top: 0.7rem; padding-left: 0.95rem; color: #ddd6c8; }
+    .role li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 5px; height: 5px; background: var(--lime); }
+    .role li strong { color: var(--text); }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1rem 0 0; padding: 0; list-style: none; }
+    .chips li, .chip {
+      font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.02em;
+      border: 1px solid var(--line); border-radius: 999px; padding: 0.28rem 0.55rem; color: var(--muted);
+    }
+
+    .skill-stage { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 1rem; margin-top: 2rem; }
+    .tabs { display: flex; flex-direction: column; gap: 0.4rem; min-width: 0; }
+    .skill-stage > * { min-width: 0; }
+    .tabs button {
+      text-align: left; font: inherit; color: var(--muted); background: transparent;
+      border: 1px solid transparent; border-radius: 12px; padding: 0.75rem 0.85rem; cursor: pointer; min-height: 44px;
+    }
+    .tabs button[aria-selected="true"] { color: var(--ink); background: var(--lime); font-weight: 600; }
+    .tabs button:hover:not([aria-selected="true"]) { border-color: var(--line); color: var(--text); }
+    .skill-stage > div:last-child { display: grid; }
+    .skill-panel {
+      position: relative; background: var(--card); border: 1px solid var(--line);
+      padding: 1.4rem 1.3rem 1.3rem; min-height: 100%; overflow: hidden;
+    }
+    .skill-panel::after {
+      content: ""; position: absolute; width: 220px; height: 220px; right: -60px; top: -70px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(214,255,74,0.18), transparent 68%); pointer-events: none;
+    }
+    .skill-panel h3 { font-size: clamp(1.8rem, 3vw, 2.6rem); position: relative; }
+    .skill-panel p { position: relative; max-width: 62ch; color: #ddd6c8; }
+    .js .skill-panel[hidden] { display: none; }
+    html:not(.js) .tabs { display: none; }
+    html:not(.js) .skill-stage { grid-template-columns: 1fr; }
+    html:not(.js) .skill-panel { display: block; margin-bottom: 0.8rem; }
+
+    .split { display: grid; grid-template-columns: 1.4fr 0.8fr; gap: 1rem; margin-top: 1.4rem; }
+    .panel {
+      background: var(--card); border: 1px solid var(--line); padding: 1.3rem;
+      transition: transform .35s ease, border-color .35s ease;
+    }
+    .panel:hover { transform: translateY(-4px); border-color: rgba(214,255,74,0.4); }
+    .panel h3 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); margin-top: 0.35rem; }
+    .panel p { color: #ddd6c8; }
+    .gpa {
+      margin: 1rem 0 0; font-family: var(--display); font-weight: 800; font-size: 3.4rem;
+      letter-spacing: -0.05em; line-height: 0.9; color: var(--lime);
+    }
+    .gpa small { display: block; margin-top: 0.4rem; font-family: var(--sans); font-size: 0.95rem; font-weight: 500; letter-spacing: 0; color: var(--muted); }
+
+    .contact-wrap { padding: 5rem 0 3.5rem; }
+    .contact-panel {
+      position: relative; border-radius: 22px; padding: clamp(1.4rem, 3vw, 2.2rem);
+      background: #10131a; isolation: isolate;
+    }
+    .contact-panel::before {
+      content: ""; position: absolute; inset: -1px; border-radius: inherit; z-index: -1;
+      background: conic-gradient(from var(--spin), transparent 0 68%, var(--lime) 82%, #9dffd8 90%, transparent 100%);
+      animation: border-spin 7s linear infinite;
+    }
+    @keyframes border-spin { to { --spin: 360deg; } }
+    .contact-panel h2 { max-width: none; }
+    .contact-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 1.6rem; }
+    .contact-grid a { font-weight: 600; text-underline-offset: 0.18em; overflow-wrap: anywhere; }
+    .mini { margin: 0 0 0.3rem; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--lime); }
+    .copy-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
+    .text-btn {
+      appearance: none; background: transparent; color: var(--lime); border: 1px solid rgba(214,255,74,0.45);
+      border-radius: 999px; min-height: 36px; padding: 0.15rem 0.7rem; font: inherit; font-size: 0.8rem; cursor: pointer;
+    }
+    .text-btn:hover { background: rgba(214,255,74,0.1); }
+    .copy-status { min-height: 1.2em; margin: 0.35rem 0 0; font-family: var(--mono); font-size: 0.75rem; color: var(--lime); }
+
+    footer { border-top: 1px solid var(--line); padding: 1.1rem 0 1.5rem; color: var(--muted); }
+    footer .wrap { display: flex; justify-content: space-between; gap: 1rem; }
+    footer p { margin: 0; }
+
+    @media (max-width: 860px) {
+      .desk { display: none; }
+      .menu-btn { display: inline-flex; }
+      .skill-stage, .split, .contact-grid { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .tabs { flex-direction: row; overflow-x: auto; max-width: 100%; padding-bottom: 0.2rem; }
+      .tabs button { white-space: nowrap; }
+      h2 { max-width: none; }
+    }
+    @media (max-width: 640px) {
+      .wrap, .topbar .wrap, .hero-inner { width: min(1120px, calc(100% - 1.5rem)); }
+      .hero { padding-top: 6rem; align-items: flex-start; }
+      .role-top { flex-direction: column; gap: 0.3rem; }
+      .when { white-space: normal; }
+      .actions { display: grid; grid-template-columns: 1fr 1fr; }
+      .actions .btn:first-child { grid-column: 1 / -1; }
+      footer .wrap { flex-direction: column; }
+      .pill { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      #loader { display: none !important; }
+      .js .reveal, .js .mask > span, .rotator span { opacity: 1 !important; transform: none !important; }
+      .marquee-track, .now i, .flow i, .contact-panel::before { animation: none !important; }
+      .track i { transform: none !important; }
+      .rail span { transform: none !important; }
+      .cursor { display: none !important; }
+    }
+
+    @media print {
+      #loader, .cursor, .progress, .marquee, .menu-btn, .overlay, canvas { display: none !important; }
+      body { background: #fff; color: #000; }
+      .stat b, .gpa, .kicker, .org, .mini { color: #000; }
+      .role-card, .panel, .meter, .skill-panel, .contact-panel, .stat { background: #fff; border-color: #ccc; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+  <div class="cursor" aria-hidden="true"></div>
+
+  <div id="loader" role="status" aria-live="polite" aria-label="Loading portfolio">
+    <div class="loader-copy">
+      <p class="loader-kicker">Mopuru Pavanesh</p>
+      <p class="loader-num"><span id="load-num">00</span></p>
+      <div class="loader-bar"><span id="load-bar"></span></div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#top">
+        <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="7" fill="#d6ff4a"/>
+          <text x="16" y="21" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#11130a">MP</text>
+        </svg>
+        <span>Mopuru Pavanesh</span>
+      </a>
+      <nav class="desk" aria-label="Page">
+        <a href="#performance">Performance</a>
+        <a href="#experience">Experience</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="pill" href="mailto:pavanesh9652@gmail.com">Email</a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+    </div>
+  </header>
+
+  <div class="overlay" id="menu" inert>
+    <a href="#performance">Performance</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#project">Project</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <canvas id="field" aria-hidden="true"></canvas>
+      <div class="hero-inner">
+        <p class="kicker">Full-stack software engineer · Hyderabad</p>
+        <h1>
+          <span class="mask"><span>Mopuru</span></span>
+          <span class="mask"><span>Pavanesh</span></span>
+        </h1>
+        <p class="rotator"><span class="on" id="rotator">Senior Software Engineer</span></p>
+        <p class="lede">I design, build, and own production web systems at Way2News — React and Next.js on the surface, Node.js underneath, and the Kafka, Redis, and AWS work that keeps them fast.</p>
+        <div class="actions">
+          <a class="btn solid" href="mailto:pavanesh9652@gmail.com?subject=Full-stack%20engineering%20role">Email Pavanesh</a>
+          <a class="btn ghost" href="tel:+919441018339">+91 94410 18339</a>
+          <a class="btn ghost" href="https://www.linkedin.com/in/mopuru-pavanesh-9b094015a" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+        <div class="hero-meta">
+          <span class="now"><i></i> Senior Software Engineer, Way2News</span>
+          <span>Since October 2022</span>
+          <span>B.Tech CSE · 8.78 / 10</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>React.js <em>/</em></span><span>Next.js <em>/</em></span><span>Node.js <em>/</em></span><span>Express <em>/</em></span><span>TypeScript <em>/</em></span><span>Apache Kafka <em>/</em></span><span>PostgreSQL <em>/</em></span><span>MongoDB <em>/</em></span><span>Redis <em>/</em></span><span>ClickHouse <em>/</em></span><span>AWS <em>/</em></span><span>Docker <em>/</em></span><span>Cashfree <em>/</em></span><span>Zoho Billing <em>/</em></span><span>Google Ad Manager <em>/</em></span>
+        <span>React.js <em>/</em></span><span>Next.js <em>/</em></span><span>Node.js <em>/</em></span><span>Express <em>/</em></span><span>TypeScript <em>/</em></span><span>Apache Kafka <em>/</em></span><span>PostgreSQL <em>/</em></span><span>MongoDB <em>/</em></span><span>Redis <em>/</em></span><span>ClickHouse <em>/</em></span><span>AWS <em>/</em></span><span>Docker <em>/</em></span><span>Cashfree <em>/</em></span><span>Zoho Billing <em>/</em></span><span>Google Ad Manager <em>/</em></span>
+      </div>
+    </div>
+
+    <section id="performance" aria-labelledby="perf-title">
+      <div class="wrap">
+        <p class="kicker section-kicker">01 — Performance</p>
+        <h2 id="perf-title" class="reveal">Numbers from production.</h2>
+        <p class="section-lead reveal">Not a skills chart. These are the outcomes from systems I shipped and then had to keep standing.</p>
+        <div class="stats">
+          <article class="stat reveal"><b data-count="40" data-suffix="%">40%</b><span>AWS bill cut, $10k to $6k a month, at 20 million requests a day</span></article>
+          <article class="stat reveal"><b data-count="4" data-suffix="×">4×</b><span>Impression volume held after the Kafka consumer fix</span></article>
+          <article class="stat reveal"><b data-count="150" data-suffix="K">150K</b><span>Requests a minute on the Redis-backed content API</span></article>
+          <article class="stat reveal"><b data-count="440" data-suffix="+">440+</b><span>REST APIs across 80+ screens and 8 access roles</span></article>
+          <article class="stat reveal"><b data-count="67" data-suffix="%">67%</b><span>Fewer MongoDB writes after batching impression updates</span></article>
+          <article class="stat reveal"><b data-count="10" data-suffix="%">10%</b><span>Revenue increase the content system contributed to</span></article>
+        </div>
+        <div class="meters">
+          <article class="meter reveal">
+            <h3>AWS monthly bill, same traffic</h3>
+            <div class="rows">
+              <div>
+                <div class="row-label"><span>Before</span><span>$10,000</span></div>
+                <div class="track"><i style="--w:100%"></i></div>
+              </div>
+              <div>
+                <div class="row-label"><span>After</span><span>$6,000</span></div>
+                <div class="track after"><i style="--w:60%"></i></div>
+              </div>
+            </div>
+            <p>Minified assets, Gzip, and a restructured bundle, on a system serving 20 million requests a day.</p>
+          </article>
+          <article class="meter reveal">
+            <h3>Daily impressions through Kafka</h3>
+            <div class="rows">
+              <div>
+                <div class="row-label"><span>Before</span><span>50 million</span></div>
+                <div class="track"><i style="--w:25%"></i></div>
+              </div>
+              <div>
+                <div class="row-label"><span>After</span><span>200 million</span></div>
+                <div class="track after"><i style="--w:100%"></i></div>
+              </div>
+            </div>
+            <p>Each event had been issuing three MongoDB increments. Threshold batching and bulk writes cut those writes by ~67% and held 4× the traffic.</p>
+            <div class="flow" aria-hidden="true"><b>Event</b><i></i><b>Kafka</b><i></i><b>Batch</b><i></i><b>MongoDB</b></div>
+          </article>
+          <article class="meter reveal">
+            <h3>Content delivery</h3>
+            <div class="rows">
+              <div>
+                <div class="row-label"><span>Sustained</span><span>~150K requests / minute</span></div>
+                <div class="track after"><i style="--w:100%"></i></div>
+              </div>
+            </div>
+            <p>Redis, geo-targeted priority, and pre-materialized payloads, with Next.js Edge widgets. Redis reads stayed under a millisecond.</p>
+            <div class="flow" aria-hidden="true"><b>Edge widget</b><i></i><b>API</b><i></i><b>Redis</b><i></i><b>Payload</b></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" aria-labelledby="exp-title">
+      <div class="wrap">
+        <p class="kicker section-kicker">02 — Experience</p>
+        <h2 id="exp-title" class="reveal">Way2News</h2>
+        <p class="section-lead reveal">October 2022 — Present. From the early build, through the platform, to the senior seat.</p>
+        <div class="timeline" id="timeline">
+          <div class="rail" aria-hidden="true"><span id="rail"></span></div>
+
+          <article class="role reveal">
+            <div class="role-card">
+              <div class="role-top">
+                <h3>Senior Software Engineer</h3>
+                <p class="when"><time datetime="2026-06">June 2026</time> — Present</p>
+              </div>
+              <p class="org">Way2News</p>
+              <p class="lead">Rebuilt the legacy booking flow, then the production work around it: push, invoicing, AWS cost, and a Kafka path that now holds four times the impression volume.</p>
+              <ul>
+                <li><strong>Rebuilt the booking module from scratch</strong> as a mobile-first SPA (React 18, Vite 6) on an ~80-endpoint ESM API (Node 24, Express 5). It covers single-device JWT auth, a slot calendar, multi-unit orders, discount and finance approvals, creative workflow, and payment collections — on PostgreSQL, MySQL, MongoDB, S3, Socket.IO, and Docker.</li>
+                <li><strong>Led cross-platform push</strong> with Android and iOS so booking status and approval events reach the web app and the native apps together.</li>
+                <li><strong>Cut AWS infrastructure cost by 40%</strong>, from $10,000 to $6,000 a month, at 20 million requests a day.</li>
+                <li><strong>Replaced a monthly CSV invoicing process</strong> with Zoho Billing. Finance creates, reviews, and tracks invoices in the product, reconciled against actual spend.</li>
+                <li><strong>Cleared a Kafka consumer bottleneck</strong> when daily impressions grew from 50 million to 200 million. Batch accumulation and bulk writes cut database writes by ~67% and sustained 4× the original traffic at a lower server bill.</li>
+              </ul>
+              <ul class="chips">
+                <li>React 18</li><li>Vite 6</li><li>Node 24</li><li>Express 5</li><li>PostgreSQL</li><li>MySQL</li><li>MongoDB</li><li>S3</li><li>Socket.IO</li><li>Docker</li><li>Kafka</li><li>Zoho Billing</li><li>AWS</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="role reveal">
+            <div class="role-card">
+              <div class="role-top">
+                <h3>Junior Software Engineer</h3>
+                <p class="when"><time datetime="2023-06">June 2023</time> — <time datetime="2026-05">May 2026</time></p>
+              </div>
+              <p class="org">Way2News</p>
+              <p class="lead">Core engineer on a two-person team that built the internal operations platform, then the pipelines, payments, ads, and reporting on top of it.</p>
+              <ul>
+                <li><strong>Architected the internal platform from scratch</strong> — 80+ screens, 440+ REST APIs across 95+ modules, RBAC for 8 roles — with React, Redux, Node.js, and Express on PostgreSQL, MySQL, MongoDB, Redis, ClickHouse, and SQLite.</li>
+                <li><strong>Built Kafka pipelines</strong> with KafkaJS, multi-threaded producers and consumers, millions of events a day into PostgreSQL, MongoDB, Redis, and ClickHouse. Redis reads stayed under a millisecond.</li>
+                <li><strong>Ran nightly aggregation</strong> for 1,500+ tracked entities into pre-computed PostgreSQL tables, feeding 30+ finance and planning reports while ClickHouse took the analytical queries.</li>
+                <li><strong>Shipped a Google Ad Manager and AdMob microservice</strong> for scheduled reports, inventory configuration, and bulk orders from the internal console.</li>
+                <li><strong>Put maker-checker approvals</strong> on financial configuration and pricing, with a timestamped audit trail on every state change.</li>
+                <li><strong>Integrated Cashfree</strong> for in-app orders, live payment status, and reconciliation through HMAC-signed webhooks and server-to-server settlement callbacks.</li>
+                <li><strong>Delivered a content API at ~150K requests a minute</strong> with Redis, geo-targeted priority, and pre-materialized payloads, plus Next.js Edge widgets. The work contributed to a 10% revenue increase.</li>
+                <li><strong>Launched an LLM-backed BI workspace</strong> with natural language to SQL, Debezium CDC, Kafka, ClickHouse materialized views, multi-tenant RBAC, and CSV/XLSX export. It replaced 5+ per-team reporting tools.</li>
+              </ul>
+              <ul class="chips">
+                <li>React</li><li>Redux</li><li>Node.js</li><li>Express</li><li>Next.js</li><li>PostgreSQL</li><li>Redis</li><li>ClickHouse</li><li>KafkaJS</li><li>Debezium</li><li>Cashfree</li><li>Ad Manager</li><li>AdMob</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="role reveal">
+            <div class="role-card">
+              <div class="role-top">
+                <h3>Trainee Software Engineer</h3>
+                <p class="when"><time datetime="2022-10">October 2022</time> — <time datetime="2023-06">June 2023</time></p>
+              </div>
+              <p class="org">Way2News</p>
+              <p class="lead">Joined as a founding team member while the platform was still early, and helped set the patterns the later system kept.</p>
+              <ul>
+                <li><strong>Contributed core React.js and Node.js features</strong> during the first build, joined system design discussions, and helped establish architecture patterns adopted across the platform.</li>
+              </ul>
+              <ul class="chips"><li>React.js</li><li>Node.js</li><li>System design</li></ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" aria-labelledby="skills-title">
+      <div class="wrap">
+        <p class="kicker section-kicker">03 — Skills</p>
+        <h2 id="skills-title" class="reveal">Pick a layer.</h2>
+        <p class="section-lead reveal">The stack, and the production work it actually did.</p>
+        <div class="skill-stage">
+          <div class="tabs" role="tablist" aria-label="Skill groups">
+            <button type="button" role="tab" id="tab-stream" aria-controls="panel-stream" aria-selected="true">Streaming</button>
+            <button type="button" role="tab" id="tab-front" aria-controls="panel-front" aria-selected="false">Frontend</button>
+            <button type="button" role="tab" id="tab-back" aria-controls="panel-back" aria-selected="false">Backend</button>
+            <button type="button" role="tab" id="tab-data" aria-controls="panel-data" aria-selected="false">Data</button>
+            <button type="button" role="tab" id="tab-cloud" aria-controls="panel-cloud" aria-selected="false">Cloud</button>
+            <button type="button" role="tab" id="tab-integ" aria-controls="panel-integ" aria-selected="false">Integrations</button>
+            <button type="button" role="tab" id="tab-practice" aria-controls="panel-practice" aria-selected="false">Practices</button>
+          </div>
+          <div>
+            <article class="skill-panel" id="panel-stream" role="tabpanel" aria-labelledby="tab-stream">
+              <h3>Streaming</h3>
+              <p>Multi-threaded Kafka producers and consumers move millions of events a day. Batching the consumer took daily impressions from 50 million to 200 million and cut MongoDB writes by ~67%. Debezium CDC feeds the BI warehouse.</p>
+              <ul class="chips"><li>Apache Kafka</li><li>KafkaJS</li><li>Debezium CDC</li><li>Event-driven architecture</li><li>WebSocket / Socket.IO</li></ul>
+            </article>
+            <article class="skill-panel" id="panel-front" role="tabpanel" aria-labelledby="tab-front" hidden>
+              <h3>Frontend</h3>
+              <p>The booking product is a mobile-first React 18 and Vite 6 SPA. The internal platform is 80+ screens on React and Redux. Next.js Edge widgets sit in front of the content API.</p>
+              <ul class="chips"><li>React.js 18</li><li>Next.js</li><li>App Router, SSR, Edge</li><li>Redux</li><li>Vite</li><li>Recharts</li><li>TypeScript</li><li>HTML &amp; CSS</li></ul>
+            </article>
+            <article class="skill-panel" id="panel-back" role="tabpanel" aria-labelledby="tab-back" hidden>
+              <h3>Backend</h3>
+              <p>An ~80-endpoint ESM API on Node 24 and Express 5 runs booking. The wider platform is 440+ REST APIs across 95+ modules, including microservices for ads and payments.</p>
+              <ul class="chips"><li>Node.js 24</li><li>Express.js 5</li><li>REST design</li><li>Microservices</li><li>JavaScript</li><li>JWT</li><li>Joi</li></ul>
+            </article>
+            <article class="skill-panel" id="panel-data" role="tabpanel" aria-labelledby="tab-data" hidden>
+              <h3>Data</h3>
+              <p>Redis serves sub-millisecond reads at about 150K requests a minute. ClickHouse takes the analytical load. PostgreSQL holds the pre-computed nightly reports for 1,500+ entities.</p>
+              <ul class="chips"><li>PostgreSQL</li><li>MySQL</li><li>MongoDB</li><li>Redis</li><li>ClickHouse</li><li>SQLite</li><li>AWS S3</li><li>SQL</li></ul>
+            </article>
+            <article class="skill-panel" id="panel-cloud" role="tabpanel" aria-labelledby="tab-cloud" hidden>
+              <h3>Cloud</h3>
+              <p>Minification, Gzip, and bundle restructuring took the AWS bill from $10,000 to $6,000 a month without dropping the 20 million requests a day.</p>
+              <ul class="chips"><li>AWS</li><li>Docker</li><li>Git</li><li>Bitbucket</li><li>Elastic APM</li></ul>
+            </article>
+            <article class="skill-panel" id="panel-integ" role="tabpanel" aria-labelledby="tab-integ" hidden>
+              <h3>Integrations</h3>
+              <p>Cashfree for payments, Zoho Billing for invoices, Google Ad Manager and AdMob for ad operations, and LLM APIs for natural-language SQL in the BI workspace.</p>
+              <ul class="chips"><li>Cashfree</li><li>Zoho Billing</li><li>Google Ad Manager</li><li>AdMob</li><li>LLM APIs</li></ul>
+            </article>
+            <article class="skill-panel" id="panel-practice" role="tabpanel" aria-labelledby="tab-practice" hidden>
+              <h3>Practices</h3>
+              <p>RBAC for 8 roles, maker-checker on pricing, single-device JWT, and unit tests kept above 80% coverage. The early months were spent in system design as much as in features.</p>
+              <ul class="chips"><li>RBAC</li><li>System design</li><li>Unit testing</li><li>Jira</li><li>Data structures</li></ul>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="project" aria-labelledby="project-title">
+      <div class="wrap">
+        <p class="kicker section-kicker">04 — Also</p>
+        <h2 id="project-title" class="reveal">Project and education.</h2>
+        <div class="split">
+          <article class="panel reveal">
+            <p class="kicker">Project</p>
+            <h3>Split Expense Management</h3>
+            <p>A full-stack expense splitter. React and Recharts show spending trends. Auth is OTP and JWT. People on a split message over WebSockets. More than 20 Node.js and PostgreSQL APIs handle the split, the balances, and settlement.</p>
+            <ul class="chips"><li>React.js</li><li>Recharts</li><li>Node.js</li><li>PostgreSQL</li><li>WebSocket</li><li>JWT</li><li>OTP</li></ul>
+          </article>
+          <article class="panel reveal" id="education">
+            <p class="kicker">Education</p>
+            <h3>B.Tech, Computer Science</h3>
+            <p>IIIT Rajiv Gandhi University of Knowledge and Technology (AP-IIIT)</p>
+            <p><time datetime="2019-06">June 2019</time> — <time datetime="2023-05">May 2023</time></p>
+            <p class="gpa">8.78 <small>GPA out of 10.0</small></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div class="contact-wrap wrap" id="contact">
+      <div class="contact-panel reveal">
+        <p class="kicker">05 — Contact</p>
+        <h2>Talk through the systems.</h2>
+        <p class="section-lead">Hyderabad, India. Email, phone, or LinkedIn.</p>
+        <div class="contact-grid">
+          <div>
+            <p class="mini">Email</p>
+            <div class="copy-row">
+              <a href="mailto:pavanesh9652@gmail.com">pavanesh9652@gmail.com</a>
+              <button type="button" class="text-btn" data-copy="pavanesh9652@gmail.com">Copy</button>
+            </div>
+            <p class="copy-status" role="status" aria-live="polite"></p>
+          </div>
+          <div>
+            <p class="mini">Phone</p>
+            <a href="tel:+919441018339">+91 94410 18339</a>
+          </div>
+          <div>
+            <p class="mini">LinkedIn</p>
+            <a href="https://www.linkedin.com/in/mopuru-pavanesh-9b094015a" target="_blank" rel="noopener noreferrer">mopuru-pavanesh</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>Mopuru Pavanesh · Full-stack software engineer</p>
+      <p>Hyderabad, India</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var loaderNum = document.getElementById("load-num");
+      var loaderBar = document.getElementById("load-bar");
+
+      function ready() { document.body.classList.add("ready"); }
+
+      if (reduce) {
+        ready();
+      } else {
+        var start = performance.now();
+        var duration = 900;
+        function tick(now) {
+          var t = Math.min(1, (now - start) / duration);
+          var eased = 1 - Math.pow(1 - t, 3);
+          var value = Math.round(eased * 100);
+          loaderNum.textContent = (value < 10 ? "0" : "") + value;
+          loaderBar.style.width = value + "%";
+          if (t < 1) requestAnimationFrame(tick);
+          else setTimeout(ready, 180);
+        }
+        requestAnimationFrame(tick);
+        setTimeout(ready, 2200);
+      }
+
+      var phrases = [
+        "Senior Software Engineer",
+        "React, Next.js, and Node.js",
+        "Kafka at 200 million impressions a day",
+        "Hyderabad, India"
+      ];
+      var rotator = document.getElementById("rotator");
+      if (!reduce && rotator) {
+        var pi = 0;
+        setInterval(function () {
+          rotator.classList.remove("on");
+          setTimeout(function () {
+            pi = (pi + 1) % phrases.length;
+            rotator.textContent = phrases[pi];
+            rotator.classList.add("on");
+          }, 280);
+        }, 2600);
+      }
+
+      var canvas = document.getElementById("field");
+      if (!reduce && canvas) {
+        var ctx = canvas.getContext("2d");
+        var particles = [];
+        var width = 0;
+        var height = 0;
+        var running = true;
+        var looping = false;
+        var pointer = { x: -9999, y: -9999 };
+
+        function resize() {
+          var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+          width = canvas.clientWidth;
+          height = canvas.clientHeight;
+          canvas.width = Math.max(1, Math.floor(width * dpr));
+          canvas.height = Math.max(1, Math.floor(height * dpr));
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          var count = Math.max(24, Math.min(72, Math.floor(width * height / 18000)));
+          particles = [];
+          for (var i = 0; i < count; i++) {
+            particles.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              vx: (Math.random() - 0.5) * 0.32,
+              vy: (Math.random() - 0.5) * 0.32
+            });
+          }
+        }
+
+        function frame() {
+          if (!running) { looping = false; return; }
+          looping = true;
+          ctx.clearRect(0, 0, width, height);
+          for (var i = 0; i < particles.length; i++) {
+            var p = particles[i];
+            var dx = p.x - pointer.x;
+            var dy = p.y - pointer.y;
+            var dist = Math.hypot(dx, dy);
+            if (dist < 150 && dist > 0.1) {
+              p.x += (dx / dist) * 0.45;
+              p.y += (dy / dist) * 0.45;
+            }
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < 0 || p.x > width) p.vx *= -1;
+            if (p.y < 0 || p.y > height) p.vy *= -1;
+          }
+          for (var a = 0; a < particles.length; a++) {
+            for (var b = a + 1; b < particles.length; b++) {
+              var p1 = particles[a];
+              var p2 = particles[b];
+              var d = Math.hypot(p1.x - p2.x, p1.y - p2.y);
+              if (d < 130) {
+                ctx.strokeStyle = "rgba(214,255,74," + ((1 - d / 130) * 0.28) + ")";
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.stroke();
+              }
+            }
+          }
+          ctx.fillStyle = "rgba(214,255,74,0.9)";
+          for (var k = 0; k < particles.length; k++) {
+            ctx.beginPath();
+            ctx.arc(particles[k].x, particles[k].y, 1.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          requestAnimationFrame(frame);
+        }
+
+        function setRunning(next) {
+          running = next;
+          if (running && !looping) frame();
+        }
+
+        resize();
+        frame();
+        window.addEventListener("resize", resize);
+        canvas.parentElement.addEventListener("pointermove", function (event) {
+          var rect = canvas.getBoundingClientRect();
+          pointer.x = event.clientX - rect.left;
+          pointer.y = event.clientY - rect.top;
+        });
+        var heroWatch = new IntersectionObserver(function (entries) {
+          setRunning(entries[0].isIntersecting && !document.hidden);
+        }, { threshold: 0.05 });
+        heroWatch.observe(canvas);
+        document.addEventListener("visibilitychange", function () {
+          setRunning(!document.hidden && canvas.getBoundingClientRect().bottom > 0);
+        });
+      }
+
+      var bar = document.getElementById("progress");
+      var rail = document.getElementById("rail");
+      var timeline = document.getElementById("timeline");
+      var header = document.querySelector(".topbar");
+      function onScroll() {
+        var doc = document.documentElement;
+        var max = doc.scrollHeight - doc.clientHeight;
+        var p = max > 0 ? doc.scrollTop / max : 0;
+        if (bar) bar.style.transform = "scaleX(" + p + ")";
+        if (header) header.classList.toggle("scrolled", doc.scrollTop > 8);
+        if (!reduce && rail && timeline) {
+          var rect = timeline.getBoundingClientRect();
+          var total = timeline.offsetHeight - window.innerHeight * 0.35;
+          var passed = Math.min(Math.max(-rect.top + window.innerHeight * 0.25, 0), Math.max(total, 1));
+          rail.style.transform = "scaleY(" + (total > 0 ? passed / total : 1) + ")";
+        }
+      }
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+
+      var seen = new WeakSet();
+      var watch = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting || seen.has(entry.target)) return;
+          seen.add(entry.target);
+          entry.target.classList.add("in");
+          var count = entry.target.querySelector("[data-count]") || (entry.target.hasAttribute("data-count") ? entry.target : null);
+          if (count && !reduce) runCount(count);
+        });
+      }, { threshold: 0.35 });
+      document.querySelectorAll(".reveal, .meter").forEach(function (node) { watch.observe(node); });
+
+      function runCount(el) {
+        var target = parseFloat(el.getAttribute("data-count"));
+        var suffix = el.getAttribute("data-suffix") || "";
+        var began = performance.now();
+        function step(now) {
+          var t = Math.min(1, (now - began) / 1100);
+          var eased = 1 - Math.pow(1 - t, 3);
+          el.textContent = Math.round(target * eased) + suffix;
+          if (t < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+
+      document.querySelectorAll('[role="tab"]').forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          document.querySelectorAll('[role="tab"]').forEach(function (other) {
+            other.setAttribute("aria-selected", other === tab ? "true" : "false");
+          });
+          document.querySelectorAll(".skill-panel").forEach(function (panel) {
+            panel.hidden = panel.id !== tab.getAttribute("aria-controls");
+          });
+        });
+      });
+
+      var menuBtn = document.querySelector(".menu-btn");
+      var menu = document.getElementById("menu");
+      function closeMenu() {
+        menu.classList.remove("open");
+        menu.setAttribute("inert", "");
+        menuBtn.setAttribute("aria-expanded", "false");
+        menuBtn.textContent = "Menu";
+        document.body.style.overflow = "";
+      }
+      menuBtn.addEventListener("click", function () {
+        var open = menuBtn.getAttribute("aria-expanded") === "true";
+        if (open) closeMenu();
+        else {
+          menu.classList.add("open");
+          menu.removeAttribute("inert");
+          menuBtn.setAttribute("aria-expanded", "true");
+          menuBtn.textContent = "Close";
+          document.body.style.overflow = "hidden";
+        }
+      });
+      menu.querySelectorAll("a").forEach(function (link) { link.addEventListener("click", closeMenu); });
+
+      var dot = document.querySelector(".cursor");
+      if (!reduce && window.matchMedia("(hover: hover) and (pointer: fine)").matches && dot) {
+        var x = 0, y = 0, cx = 0, cy = 0, visible = false, scale = 1;
+        window.addEventListener("pointermove", function (event) {
+          x = event.clientX; y = event.clientY;
+          if (!visible) { visible = true; dot.style.opacity = "1"; }
+        }, { passive: true });
+        window.addEventListener("pointerleave", function () { dot.style.opacity = "0"; visible = false; });
+        document.querySelectorAll("a, button").forEach(function (el) {
+          el.addEventListener("pointerenter", function () { scale = 2.2; });
+          el.addEventListener("pointerleave", function () { scale = 1; });
+        });
+        (function follow() {
+          cx += (x - cx) * 0.18;
+          cy += (y - cy) * 0.18;
+          if (visible) dot.style.transform = "translate(" + cx + "px," + cy + "px) scale(" + scale + ")";
+          requestAnimationFrame(follow);
+        })();
+      }
+
+      var status = document.querySelector(".copy-status");
+      document.querySelectorAll("[data-copy]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var value = btn.getAttribute("data-copy");
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(value).then(function () {
+              if (status) status.textContent = "Email copied.";
+            }).catch(function () { window.location.href = "mailto:" + value; });
+          } else {
+            window.location.href = "mailto:" + value;
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
