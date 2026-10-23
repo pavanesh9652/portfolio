@@ -162,15 +162,42 @@
     }
     .overlay a:hover { color: var(--lime); }
 
-    .hero { position: relative; min-height: 100svh; display: flex; align-items: flex-end; padding: 7rem 0 2.4rem; overflow: hidden; }
-    .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-    .hero-inner { position: relative; z-index: 1; width: min(1120px, calc(100% - 2.5rem)); margin-inline: auto; }
+    .hero { position: relative; min-height: calc(100svh - 4.4rem); display: flex; align-items: flex-end; padding: 4.5rem 0 2.2rem; overflow: hidden; }
+    .hero > canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .hero-inner {
+      position: relative; z-index: 1;
+      width: min(1120px, calc(100% - 2.5rem));
+      margin-inline: auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) clamp(240px, 24vw, 340px);
+      gap: 1.5rem 3rem;
+      align-items: center;
+    }
+    .portrait { position: relative; margin: 0; z-index: 1; }
+    .js .portrait img { opacity: 0; transform: translateY(18px); }
+    body.ready .portrait img { opacity: 1; transform: none; transition: opacity .8s ease .12s, transform 1s cubic-bezier(.16,1,.3,1) .12s; }
+    body.ready .portrait.live img { opacity: 0; }
+    .portrait img {
+      display: block; width: 100%; height: auto; aspect-ratio: 1;
+      object-fit: cover; object-position: center 18%; border-radius: 18px;
+      border: 1px solid rgba(214, 255, 74, 0.45);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    }
+    .portrait canvas.face {
+      position: absolute; left: -14%; top: -14%; width: 128%; height: 128%;
+      pointer-events: none; opacity: 0;
+    }
+    body.ready .portrait.live canvas.face {
+      opacity: 1;
+      transition: opacity .9s ease .15s;
+      filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.45));
+    }
     .kicker {
       margin: 0 0 0.8rem; font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.14em;
       text-transform: uppercase; color: var(--lime);
     }
     h1, h2, h3 { font-family: var(--display); letter-spacing: -0.045em; line-height: 0.92; margin: 0; font-weight: 800; }
-    h1 { font-size: clamp(2.55rem, 10.2vw, 7.15rem); }
+    h1 { font-size: clamp(2.5rem, 6.2vw, 5.4rem); }
     .mask { display: block; overflow: hidden; }
     .js .mask > span { display: block; transform: translateY(110%); }
     body.ready .mask > span { transform: none; transition: transform 1s cubic-bezier(.16,1,.3,1); }
@@ -348,6 +375,8 @@
     @media (max-width: 860px) {
       .desk { display: none; }
       .menu-btn { display: inline-flex; }
+      .hero-inner { grid-template-columns: 1fr; justify-items: start; }
+      .portrait { order: -1; width: min(240px, 68vw); }
       .skill-stage, .split, .contact-grid, .edu { grid-template-columns: 1fr; }
       .edu .gpa { text-align: left; }
       .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -358,6 +387,8 @@
     @media (max-width: 640px) {
       .wrap, .topbar .wrap, .hero-inner { width: min(1120px, calc(100% - 1.5rem)); }
       .hero { padding-top: 6rem; align-items: flex-start; }
+      .hero-inner { grid-template-columns: 1fr; justify-items: start; }
+      .portrait { order: -1; width: min(220px, 64vw); }
       .role-top { flex-direction: column; gap: 0.3rem; }
       .when { white-space: normal; }
       .actions { display: grid; grid-template-columns: 1fr 1fr; }
@@ -370,7 +401,8 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       #loader { display: none !important; }
-      .js .reveal, .js .mask > span, .rotator span { opacity: 1 !important; transform: none !important; }
+      .js .reveal, .js .mask > span, .rotator span, .js .portrait img { opacity: 1 !important; transform: none !important; }
+      .portrait canvas.face { display: none !important; }
       .marquee-track, .now i, .flow i, .contact-panel::before { animation: none !important; }
       .track i { transform: none !important; }
       .rail span { transform: none !important; }
@@ -432,24 +464,30 @@
     <section class="hero" id="top">
       <canvas id="field" aria-hidden="true"></canvas>
       <div class="hero-inner">
-        <p class="kicker">Full-stack software engineer · Hyderabad</p>
-        <h1>
-          <span class="mask"><span>Mopuru</span></span>
-          <span class="mask"><span>Pavanesh</span></span>
-        </h1>
-        <p class="rotator"><span class="on" id="rotator">Senior Software Engineer</span></p>
-        <p class="lede">Four years owning production systems at Way2News — React and Next.js on the surface, Node.js underneath, and the Kafka, Redis, and AWS work that keeps them fast.</p>
-        <div class="actions">
-          <a class="btn solid" href="mailto:pavanesh9652@gmail.com?subject=Full-stack%20engineering%20role">Email Pavanesh</a>
-          <a class="btn ghost resume" href="Mopuru-Pavanesh-Resume.pdf" download="Mopuru-Pavanesh-Resume.pdf">Download resume</a>
-          <a class="btn ghost" href="tel:+919441018339">+91 94410 18339</a>
-          <a class="btn ghost" href="https://www.linkedin.com/in/mopuru-pavanesh-9b094015a" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <div class="hero-copy">
+          <p class="kicker">Full-stack software engineer · Hyderabad</p>
+          <h1>
+            <span class="mask"><span>Mopuru</span></span>
+            <span class="mask"><span>Pavanesh</span></span>
+          </h1>
+          <p class="rotator"><span class="on" id="rotator">Senior Software Engineer</span></p>
+          <p class="lede">Four years owning production systems at Way2News — React and Next.js on the surface, Node.js underneath, and the Kafka, Redis, and AWS work that keeps them fast.</p>
+          <div class="actions">
+            <a class="btn solid" href="mailto:pavanesh9652@gmail.com?subject=Full-stack%20engineering%20role">Email Pavanesh</a>
+            <a class="btn ghost resume" href="Mopuru-Pavanesh-Resume.pdf" download="Mopuru-Pavanesh-Resume.pdf">Download resume</a>
+            <a class="btn ghost" href="tel:+919441018339">+91 94410 18339</a>
+            <a class="btn ghost" href="https://www.linkedin.com/in/mopuru-pavanesh-9b094015a" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </div>
+          <div class="hero-meta">
+            <span class="now"><i></i> Senior Software Engineer, Way2News</span>
+            <span>Since October 2022</span>
+            <span>B.Tech CSE · 8.78 / 10</span>
+          </div>
         </div>
-        <div class="hero-meta">
-          <span class="now"><i></i> Senior Software Engineer, Way2News</span>
-          <span>Since October 2022</span>
-          <span>B.Tech CSE · 8.78 / 10</span>
-        </div>
+        <figure class="portrait">
+          <img src="pavanesh.jpg" width="640" height="640" alt="Portrait of Mopuru Pavanesh">
+          <canvas class="face" id="face" aria-hidden="true"></canvas>
+        </figure>
       </div>
     </section>
 
@@ -823,6 +861,298 @@
         document.addEventListener("visibilitychange", function () {
           setRunning(!document.hidden && canvas.getBoundingClientRect().bottom > 0);
         });
+      }
+
+      var face = document.getElementById("face");
+      var portrait = document.querySelector(".portrait");
+      if (!reduce && face && portrait) {
+        var startFace = function (photo) {
+          try { buildFace(photo); } catch (err) { portrait.classList.remove("live"); }
+        };
+        var buildFace = function (photo) {
+          face.width = 1024;
+          face.height = 1024;
+          var gl = face.getContext("webgl", { alpha: true, antialias: true, premultipliedAlpha: true });
+          if (!gl) return;
+          gl.viewport(0, 0, face.width, face.height);
+
+          function compile(type, source) {
+            var shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+              gl.deleteShader(shader);
+              return null;
+            }
+            return shader;
+          }
+
+          var vs = compile(gl.VERTEX_SHADER, [
+            "attribute vec2 aPos;",
+            "attribute vec2 aUv;",
+            "attribute float aDepth;",
+            "attribute vec2 aGrad;",
+            "uniform float uYaw;",
+            "uniform float uPitch;",
+            "uniform float uAmp;",
+            "uniform float uCell;",
+            "varying vec2 vUv;",
+            "varying vec3 vN;",
+            "vec3 rot(vec3 p, float yaw, float pitch){",
+            "  float cy = cos(yaw), sy = sin(yaw);",
+            "  float cx = cos(pitch), sx = sin(pitch);",
+            "  p = vec3(p.x * cy + p.z * sy, p.y, -p.x * sy + p.z * cy);",
+            "  return vec3(p.x, p.y * cx - p.z * sx, p.y * sx + p.z * cx);",
+            "}",
+            "void main(){",
+            "  vec3 p = rot(vec3(aPos, aDepth * uAmp), uYaw, uPitch);",
+            "  vec3 n = normalize(vec3(-aGrad.x * uAmp / uCell, -aGrad.y * uAmp / uCell, 1.0));",
+            "  vN = rot(n, uYaw, uPitch);",
+            "  vUv = aUv;",
+            "  float w = 3.05 - p.z;",
+            "  gl_Position = vec4(p.x * 1.72, p.y * 1.72, p.z * 0.5, w);",
+            "}"
+          ].join("\n"));
+          var fs = compile(gl.FRAGMENT_SHADER, [
+            "precision mediump float;",
+            "uniform sampler2D uPhoto;",
+            "uniform vec2 uLight;",
+            "varying vec2 vUv;",
+            "varying vec3 vN;",
+            "void main(){",
+            "  vec3 base = texture2D(uPhoto, vUv).rgb;",
+            "  float mx = max(base.r, max(base.g, base.b));",
+            "  float mn = min(base.r, min(base.g, base.b));",
+            "  float sat = mx - mn;",
+            "  float luma = dot(base, vec3(0.30, 0.59, 0.11));",
+            "  vec2 p = vec2(vUv.x, 1.0 - vUv.y);",
+            "  float oval = pow((p.x - 0.53) / 0.17, 2.0) + pow((p.y - 0.43) / 0.21, 2.0);",
+            "  float protect = 1.0 - smoothstep(0.55, 1.05, oval);",
+            "  float gray = smoothstep(0.22, 0.07, sat);",
+            "  float mid = smoothstep(0.06, 0.14, luma) * smoothstep(0.86, 0.62, luma);",
+            "  float neutral = smoothstep(0.14, 0.03, abs(base.r - base.g));",
+            "  float cool = smoothstep(-0.02, 0.025, base.b - base.r);",
+            "  float backdrop = gray * mid * neutral * cool * (1.0 - protect);",
+            "  float alpha = smoothstep(0.72, 0.2, backdrop);",
+            "  if (alpha < 0.04) discard;",
+            "  vec3 N = normalize(vN);",
+            "  vec3 L = normalize(vec3(uLight, 1.15));",
+            "  float shade = clamp(dot(N, L) * 0.5 + 0.5, 0.0, 1.0);",
+            "  vec3 H = normalize(L + vec3(0.0, 0.0, 1.0));",
+            "  float spec = pow(clamp(dot(N, H), 0.0, 1.0), 48.0);",
+            "  float fres = pow(1.0 - clamp(abs(dot(N, vec3(0.0, 0.0, 1.0))), 0.0, 1.0), 2.8);",
+            "  vec3 col = base * (0.92 + 0.22 * shade);",
+            "  col += vec3(1.0, 0.97, 0.92) * spec * 0.18;",
+            "  col += vec3(0.84, 1.0, 0.29) * fres * 0.16;",
+            "  gl_FragColor = vec4(col * alpha, alpha);",
+            "}"
+          ].join("\n"));
+          if (!vs || !fs) return;
+          var program = gl.createProgram();
+          gl.attachShader(program, vs);
+          gl.attachShader(program, fs);
+          gl.linkProgram(program);
+          if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return;
+          gl.useProgram(program);
+
+          var N = 132;
+          var span = 1.62;
+          var depth = new Float32Array(N * N);
+          var x, y;
+          function smooth(edge0, edge1, value) {
+            var t = Math.min(1, Math.max(0, (value - edge0) / (edge1 - edge0)));
+            return t * t * (3 - 2 * t);
+          }
+          function gauss(u, v, cx, cy, rx, ry) {
+            var dx = (u - cx) / rx;
+            var dy = (v - cy) / ry;
+            return Math.exp(-(dx * dx + dy * dy));
+          }
+          function blur(src, radius) {
+            var tmp = new Float32Array(src.length);
+            var out = new Float32Array(src.length);
+            var k = radius * 2 + 1;
+            var yy, xx, s, t;
+            for (yy = 0; yy < N; yy++) {
+              for (xx = 0; xx < N; xx++) {
+                s = 0;
+                for (t = -radius; t <= radius; t++) s += src[yy * N + Math.min(N - 1, Math.max(0, xx + t))];
+                tmp[yy * N + xx] = s / k;
+              }
+            }
+            for (yy = 0; yy < N; yy++) {
+              for (xx = 0; xx < N; xx++) {
+                s = 0;
+                for (t = -radius; t <= radius; t++) s += tmp[Math.min(N - 1, Math.max(0, yy + t)) * N + xx];
+                out[yy * N + xx] = s / k;
+              }
+            }
+            return out;
+          }
+          for (y = 0; y < N; y++) {
+            for (x = 0; x < N; x++) {
+              var u = x / (N - 1);
+              var v = y / (N - 1);
+              var onHead = Math.pow((u - 0.53) / 0.25, 2) + Math.pow((v - 0.38) / 0.33, 2) < 1;
+              var onBody = v > 0.6 && v < 0.99 && Math.abs(u - 0.52) < 0.5;
+              if (!onHead && !onBody) continue;
+              var head = Math.max(0, 1 - Math.pow((u - 0.535) / 0.22, 2) - Math.pow((v - 0.4) / 0.28, 2));
+              head = Math.pow(head, 0.58);
+              var nose = gauss(u, v, 0.53, 0.445, 0.05, 0.08);
+              var brow = gauss(u, v, 0.53, 0.355, 0.13, 0.035) * 0.26;
+              var sockets = (gauss(u, v, 0.455, 0.378, 0.048, 0.028) + gauss(u, v, 0.605, 0.378, 0.048, 0.028)) * 0.3;
+              var cheeks = (gauss(u, v, 0.44, 0.47, 0.065, 0.05) + gauss(u, v, 0.63, 0.47, 0.065, 0.05)) * 0.3;
+              var lips = gauss(u, v, 0.53, 0.52, 0.06, 0.022) * 0.16;
+              var chin = gauss(u, v, 0.53, 0.59, 0.07, 0.038) * 0.14;
+              var hair = gauss(u, v, 0.54, 0.2, 0.18, 0.14) * 0.55;
+              var neck = Math.max(0, 1 - Math.pow((u - 0.53) / 0.08, 2)) * smooth(0.58, 0.66, v) * (1 - smooth(0.76, 0.86, v)) * 0.4;
+              var shoulders = Math.max(0, 1 - Math.pow((u - 0.52) / 0.5, 2)) * smooth(0.7, 0.84, v) * (1 - smooth(0.92, 1, v)) * 0.2;
+              var z = head * 0.82 + nose * 0.46 + brow + cheeks + lips + chin + hair + neck + shoulders - sockets;
+              depth[y * N + x] = z > 0 ? z : 0;
+            }
+          }
+          depth = blur(depth, 1);
+          for (y = 0; y < N; y++) {
+            for (x = 0; x < N; x++) {
+              var u3 = x / (N - 1);
+              var v3 = y / (N - 1);
+              var headR = Math.pow((u3 - 0.53) / 0.24, 2) + Math.pow((v3 - 0.37) / 0.31, 2);
+              var keep = Math.max(1 - smooth(0.62, 1, headR), smooth(0.68, 0.8, v3) * (1 - smooth(0.94, 1, v3)) * (1 - Math.min(1, Math.abs(u3 - 0.52) / 0.46)));
+              depth[y * N + x] *= keep;
+            }
+          }
+
+          var verts = new Float32Array(N * N * 7);
+          for (y = 0; y < N; y++) {
+            for (x = 0; x < N; x++) {
+              var u2 = x / (N - 1);
+              var vDown = y / (N - 1);
+              var vUp = 1 - vDown;
+              var o = (y * N + x) * 7;
+              var dL = depth[y * N + Math.max(0, x - 1)];
+              var dR = depth[y * N + Math.min(N - 1, x + 1)];
+              var dUp = depth[Math.max(0, y - 1) * N + x];
+              var dDn = depth[Math.min(N - 1, y + 1) * N + x];
+              verts[o] = (u2 - 0.5) * span;
+              verts[o + 1] = (vUp - 0.5) * span;
+              verts[o + 2] = u2;
+              verts[o + 3] = vUp;
+              verts[o + 4] = depth[y * N + x];
+              verts[o + 5] = (dR - dL) * 0.5;
+              verts[o + 6] = (dUp - dDn) * 0.5;
+            }
+          }
+          var indices = new Uint16Array((N - 1) * (N - 1) * 6);
+          var p = 0;
+          for (y = 0; y < N - 1; y++) {
+            for (x = 0; x < N - 1; x++) {
+              var a = y * N + x;
+              indices[p++] = a;
+              indices[p++] = a + 1;
+              indices[p++] = a + N;
+              indices[p++] = a + 1;
+              indices[p++] = a + N + 1;
+              indices[p++] = a + N;
+            }
+          }
+          if (N * N - 1 > 65535) return;
+
+          var buffer = gl.createBuffer();
+          gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+          gl.bufferData(gl.ARRAY_BUFFER, verts, gl.STATIC_DRAW);
+          var ibo = gl.createBuffer();
+          gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
+          gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
+
+          var stride = 7 * 4;
+          function attr(name, size, offset) {
+            var loc = gl.getAttribLocation(program, name);
+            if (loc < 0) return;
+            gl.enableVertexAttribArray(loc);
+            gl.vertexAttribPointer(loc, size, gl.FLOAT, false, stride, offset * 4);
+          }
+          attr("aPos", 2, 0);
+          attr("aUv", 2, 2);
+          attr("aDepth", 1, 4);
+          attr("aGrad", 2, 5);
+
+          var tex = gl.createTexture();
+          gl.bindTexture(gl.TEXTURE_2D, tex);
+          gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, photo);
+
+          var uYaw = gl.getUniformLocation(program, "uYaw");
+          var uPitch = gl.getUniformLocation(program, "uPitch");
+          var uAmp = gl.getUniformLocation(program, "uAmp");
+          var uCell = gl.getUniformLocation(program, "uCell");
+          var uLight = gl.getUniformLocation(program, "uLight");
+          gl.uniform1f(uCell, span / (N - 1));
+          gl.enable(gl.BLEND);
+          gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+          gl.enable(gl.DEPTH_TEST);
+          gl.clearColor(0, 0, 0, 0);
+
+          var yaw = 0;
+          var pitch = 0;
+          var intro = 0;
+          var aimX = 0;
+          var aimY = 0;
+          var lastPointer = 0;
+          var faceOn = true;
+          var faceLoop = false;
+          var count = indices.length;
+
+          function drawFace(now) {
+            if (!faceOn) { faceLoop = false; return; }
+            faceLoop = true;
+            if (document.body.classList.contains("ready")) intro += (1 - intro) * 0.06;
+            var idle = !lastPointer || now - lastPointer > 1200;
+            var t = now * 0.001;
+            var targetYaw = idle ? Math.sin(t * 0.55) * 0.42 : Math.max(-0.5, Math.min(0.5, aimX * 0.85));
+            var targetPitch = idle ? Math.cos(t * 0.37) * 0.12 : Math.max(-0.32, Math.min(0.32, -aimY * 0.5));
+            yaw += (targetYaw - yaw) * 0.07;
+            pitch += (targetPitch - pitch) * 0.07;
+            gl.viewport(0, 0, face.width, face.height);
+            gl.uniform1f(uYaw, yaw);
+            gl.uniform1f(uPitch, pitch);
+            gl.uniform1f(uAmp, 0.4 * intro);
+            gl.uniform2f(uLight, -0.25 + yaw * 1.6, 0.72 - pitch);
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+            gl.drawElements(gl.TRIANGLES, count, gl.UNSIGNED_SHORT, 0);
+            requestAnimationFrame(drawFace);
+          }
+
+          function setFace(next) {
+            faceOn = next;
+            if (faceOn && !faceLoop) requestAnimationFrame(drawFace);
+          }
+
+          portrait.classList.add("live");
+          window.addEventListener("pointermove", function (event) {
+            var rect = portrait.getBoundingClientRect();
+            aimX = (event.clientX - (rect.left + rect.width / 2)) / rect.width;
+            aimY = (event.clientY - (rect.top + rect.height / 2)) / rect.height;
+            lastPointer = performance.now();
+          });
+          var faceWatch = new IntersectionObserver(function (entries) {
+            setFace(entries[0].isIntersecting && !document.hidden);
+          }, { threshold: 0.05 });
+          faceWatch.observe(portrait);
+          document.addEventListener("visibilitychange", function () {
+            setFace(!document.hidden && portrait.getBoundingClientRect().bottom > 0);
+          });
+          requestAnimationFrame(drawFace);
+        };
+        var photo = portrait.querySelector("img");
+        function kickFace() {
+          if (photo && photo.naturalWidth) startFace(photo);
+        }
+        if (photo.complete) kickFace();
+        else photo.addEventListener("load", kickFace);
       }
 
       var bar = document.getElementById("progress");
