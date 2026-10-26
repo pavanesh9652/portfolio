@@ -163,7 +163,7 @@
     .overlay a:hover { color: var(--lime); }
 
     .hero { position: relative; min-height: calc(100svh - 4.4rem); display: flex; align-items: flex-end; padding: 4.5rem 0 2.2rem; overflow: hidden; }
-    .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .hero > canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
     .hero-inner {
       position: relative; z-index: 1;
       width: min(1120px, calc(100% - 2.5rem));
@@ -173,14 +173,24 @@
       gap: 1.5rem 3rem;
       align-items: center;
     }
-    .portrait { margin: 0; }
+    .portrait { position: relative; margin: 0; z-index: 1; }
     .js .portrait img { opacity: 0; transform: translateY(18px); }
     body.ready .portrait img { opacity: 1; transform: none; transition: opacity .8s ease .12s, transform 1s cubic-bezier(.16,1,.3,1) .12s; }
+    body.ready .portrait.live img { opacity: 0; }
     .portrait img {
       display: block; width: 100%; height: auto; aspect-ratio: 1;
       object-fit: cover; object-position: center 18%; border-radius: 18px;
       border: 1px solid rgba(214, 255, 74, 0.45);
       box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    }
+    .portrait canvas.face {
+      position: absolute; left: -14%; top: -14%; width: 128%; height: 128%;
+      pointer-events: none; opacity: 0;
+    }
+    body.ready .portrait.live canvas.face {
+      opacity: 1;
+      transition: opacity .9s ease .15s;
+      filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.45));
     }
     .kicker {
       margin: 0 0 0.8rem; font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.14em;
@@ -366,7 +376,7 @@
       .desk { display: none; }
       .menu-btn { display: inline-flex; }
       .hero-inner { grid-template-columns: 1fr; justify-items: start; }
-      .portrait { order: -1; width: 132px; }
+      .portrait { order: -1; width: min(240px, 68vw); }
       .skill-stage, .split, .contact-grid, .edu { grid-template-columns: 1fr; }
       .edu .gpa { text-align: left; }
       .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -378,7 +388,7 @@
       .wrap, .topbar .wrap, .hero-inner { width: min(1120px, calc(100% - 1.5rem)); }
       .hero { padding-top: 6rem; align-items: flex-start; }
       .hero-inner { grid-template-columns: 1fr; justify-items: start; }
-      .portrait { order: -1; width: 124px; }
+      .portrait { order: -1; width: min(220px, 64vw); }
       .role-top { flex-direction: column; gap: 0.3rem; }
       .when { white-space: normal; }
       .actions { display: grid; grid-template-columns: 1fr 1fr; }
@@ -392,6 +402,7 @@
       html { scroll-behavior: auto; }
       #loader { display: none !important; }
       .js .reveal, .js .mask > span, .rotator span, .js .portrait img { opacity: 1 !important; transform: none !important; }
+      .portrait canvas.face { display: none !important; }
       .marquee-track, .now i, .flow i, .contact-panel::before { animation: none !important; }
       .track i { transform: none !important; }
       .rail span { transform: none !important; }
@@ -475,6 +486,7 @@
         </div>
         <figure class="portrait">
           <img src="pavanesh.jpg" width="640" height="640" alt="Portrait of Mopuru Pavanesh">
+          <canvas class="face" id="face" aria-hidden="true"></canvas>
         </figure>
       </div>
     </section>
@@ -849,6 +861,223 @@
         document.addEventListener("visibilitychange", function () {
           setRunning(!document.hidden && canvas.getBoundingClientRect().bottom > 0);
         });
+      }
+
+      var face = document.getElementById("face");
+      var portrait = document.querySelector(".portrait");
+      if (!reduce && face && portrait) {
+        var startFace = function (photo) {
+          try { buildFace(photo); } catch (err) { portrait.classList.remove("live"); }
+        };
+        var buildFace = function (photo) {
+          face.width = 1024;
+          face.height = 1024;
+          var gl = face.getContext("webgl", { alpha: true, antialias: true, premultipliedAlpha: true });
+          if (!gl) return;
+          gl.viewport(0, 0, face.width, face.height);
+
+          function compile(type, source) {
+            var shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+              gl.deleteShader(shader);
+              return null;
+            }
+            return shader;
+          }
+
+          var vs = compile(gl.VERTEX_SHADER, [
+            "attribute vec2 aPos;",
+            "attribute vec2 aUv;",
+            "uniform float uYaw;",
+            "uniform float uPitch;",
+            "varying vec2 vUv;",
+            "void main(){",
+            "  float cy = cos(uYaw), sy = sin(uYaw);",
+            "  float cx = cos(uPitch), sx = sin(uPitch);",
+            "  vec3 p = vec3(aPos, 0.0);",
+            "  p = vec3(p.x * cy + p.z * sy, p.y, -p.x * sy + p.z * cy);",
+            "  p = vec3(p.x, p.y * cx - p.z * sx, p.y * sx + p.z * cx);",
+            "  vUv = aUv;",
+            "  float w = 3.05 - p.z;",
+            "  gl_Position = vec4(p.x * 1.9, p.y * 1.9, 0.0, w);",
+            "}"
+          ].join("\n"));
+          var fs = compile(gl.FRAGMENT_SHADER, [
+            "precision mediump float;",
+            "uniform sampler2D uFront;",
+            "uniform sampler2D uLeft;",
+            "uniform sampler2D uRight;",
+            "uniform sampler2D uUp;",
+            "uniform sampler2D uDown;",
+            "uniform vec4 uHave;",
+            "uniform vec2 uLook;",
+            "varying vec2 vUv;",
+            "vec4 keyed(vec3 base){",
+            "  float mx = max(base.r, max(base.g, base.b));",
+            "  float mn = min(base.r, min(base.g, base.b));",
+            "  float sat = mx - mn;",
+            "  float luma = dot(base, vec3(0.30, 0.59, 0.11));",
+            "  vec2 p = vec2(vUv.x, 1.0 - vUv.y);",
+            "  float oval = pow((p.x - 0.53) / 0.17, 2.0) + pow((p.y - 0.43) / 0.21, 2.0);",
+            "  float protect = 1.0 - smoothstep(0.55, 1.05, oval);",
+            "  float gray = smoothstep(0.22, 0.07, sat);",
+            "  float mid = smoothstep(0.06, 0.14, luma) * smoothstep(0.86, 0.62, luma);",
+            "  float neutral = smoothstep(0.14, 0.03, abs(base.r - base.g));",
+            "  float cool = smoothstep(-0.02, 0.025, base.b - base.r);",
+            "  float backdrop = gray * mid * neutral * cool * (1.0 - protect);",
+            "  float alpha = smoothstep(0.72, 0.2, backdrop);",
+            "  return vec4(base * alpha, alpha);",
+            "}",
+            "void main(){",
+            "  vec4 front = keyed(texture2D(uFront, vUv).rgb);",
+            "  vec4 side = uLook.x < 0.0 ? keyed(texture2D(uLeft, vUv).rgb) : keyed(texture2D(uRight, vUv).rgb);",
+            "  float sideHave = uLook.x < 0.0 ? uHave.x : uHave.y;",
+            "  float sideMix = smoothstep(0.08, 0.62, abs(uLook.x)) * sideHave;",
+            "  vec4 col = mix(front, side, sideMix);",
+            "  vec4 vert = uLook.y > 0.0 ? keyed(texture2D(uUp, vUv).rgb) : keyed(texture2D(uDown, vUv).rgb);",
+            "  float vertHave = uLook.y > 0.0 ? uHave.z : uHave.w;",
+            "  float vertMix = smoothstep(0.08, 0.62, abs(uLook.y)) * vertHave;",
+            "  col = mix(col, vert, vertMix);",
+            "  if (col.a < 0.04) discard;",
+            "  gl_FragColor = col;",
+            "}"
+          ].join("\n"));
+          if (!vs || !fs) return;
+          var program = gl.createProgram();
+          gl.attachShader(program, vs);
+          gl.attachShader(program, fs);
+          gl.linkProgram(program);
+          if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return;
+          gl.useProgram(program);
+
+          var s = 0.86;
+          var quad = new Float32Array([
+            -s, -s, 0, 0,
+             s, -s, 1, 0,
+            -s,  s, 0, 1,
+            -s,  s, 0, 1,
+             s, -s, 1, 0,
+             s,  s, 1, 1
+          ]);
+          var buffer = gl.createBuffer();
+          gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+          gl.bufferData(gl.ARRAY_BUFFER, quad, gl.STATIC_DRAW);
+          var posLoc = gl.getAttribLocation(program, "aPos");
+          var uvLoc = gl.getAttribLocation(program, "aUv");
+          gl.enableVertexAttribArray(posLoc);
+          gl.enableVertexAttribArray(uvLoc);
+          gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 16, 0);
+          gl.vertexAttribPointer(uvLoc, 2, gl.FLOAT, false, 16, 8);
+
+          function upload(unit, img) {
+            gl.activeTexture(gl.TEXTURE0 + unit);
+            var tex = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, tex);
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+            return tex;
+          }
+          var slots = [upload(0, photo), upload(1, photo), upload(2, photo), upload(3, photo), upload(4, photo)];
+          var have = [0, 0, 0, 0];
+          gl.uniform1i(gl.getUniformLocation(program, "uFront"), 0);
+          gl.uniform1i(gl.getUniformLocation(program, "uLeft"), 1);
+          gl.uniform1i(gl.getUniformLocation(program, "uRight"), 2);
+          gl.uniform1i(gl.getUniformLocation(program, "uUp"), 3);
+          gl.uniform1i(gl.getUniformLocation(program, "uDown"), 4);
+          var uHave = gl.getUniformLocation(program, "uHave");
+          var uLook = gl.getUniformLocation(program, "uLook");
+          var uYaw = gl.getUniformLocation(program, "uYaw");
+          var uPitch = gl.getUniformLocation(program, "uPitch");
+          gl.uniform4f(uHave, 0, 0, 0, 0);
+          gl.enable(gl.BLEND);
+          gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+          gl.disable(gl.DEPTH_TEST);
+          gl.clearColor(0, 0, 0, 0);
+
+          var views = [
+            { src: "face-left.jpg", slot: 1, index: 0 },
+            { src: "face-right.jpg", slot: 2, index: 1 },
+            { src: "face-up.jpg", slot: 3, index: 2 },
+            { src: "face-down.jpg", slot: 4, index: 3 }
+          ];
+          views.forEach(function (view) {
+            var img = new Image();
+            img.onload = function () {
+              try {
+                gl.activeTexture(gl.TEXTURE0 + view.slot);
+                gl.bindTexture(gl.TEXTURE_2D, slots[view.slot]);
+                gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+                have[view.index] = 1;
+                gl.uniform4f(uHave, have[0], have[1], have[2], have[3]);
+              } catch (err) { /* a local file cannot be used as a texture */ }
+            };
+            img.src = view.src;
+          });
+
+          var lookX = 0;
+          var lookY = 0;
+          var intro = 0;
+          var aimX = 0;
+          var aimY = 0;
+          var lastPointer = 0;
+          var faceOn = true;
+          var faceLoop = false;
+
+          function drawFace(now) {
+            if (!faceOn) { faceLoop = false; return; }
+            faceLoop = true;
+            if (document.body.classList.contains("ready")) intro += (1 - intro) * 0.06;
+            var idle = !lastPointer || now - lastPointer > 1200;
+            var t = now * 0.001;
+            var targetX = idle ? Math.sin(t * 0.45) * 0.55 : Math.max(-1, Math.min(1, aimX * 0.9));
+            var targetY = idle ? Math.cos(t * 0.33) * 0.28 : Math.max(-1, Math.min(1, -aimY * 0.75));
+            lookX += (targetX - lookX) * 0.07;
+            lookY += (targetY - lookY) * 0.07;
+            var sides = have[0] || have[1];
+            var verts = have[2] || have[3];
+            gl.viewport(0, 0, face.width, face.height);
+            gl.uniform2f(uLook, lookX * intro, lookY * intro);
+            gl.uniform1f(uYaw, lookX * (sides ? 0.1 : 0.22) * intro);
+            gl.uniform1f(uPitch, lookY * (verts ? 0.08 : 0.14) * intro);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.drawArrays(gl.TRIANGLES, 0, 6);
+            requestAnimationFrame(drawFace);
+          }
+
+          function setFace(next) {
+            faceOn = next;
+            if (faceOn && !faceLoop) requestAnimationFrame(drawFace);
+          }
+
+          portrait.classList.add("live");
+          window.addEventListener("pointermove", function (event) {
+            var rect = portrait.getBoundingClientRect();
+            aimX = (event.clientX - (rect.left + rect.width / 2)) / rect.width;
+            aimY = (event.clientY - (rect.top + rect.height / 2)) / rect.height;
+            lastPointer = performance.now();
+          });
+          var faceWatch = new IntersectionObserver(function (entries) {
+            setFace(entries[0].isIntersecting && !document.hidden);
+          }, { threshold: 0.05 });
+          faceWatch.observe(portrait);
+          document.addEventListener("visibilitychange", function () {
+            setFace(!document.hidden && portrait.getBoundingClientRect().bottom > 0);
+          });
+          requestAnimationFrame(drawFace);
+        };
+        var photo = portrait.querySelector("img");
+        function kickFace() {
+          if (photo && photo.naturalWidth) startFace(photo);
+        }
+        if (photo.complete) kickFace();
+        else photo.addEventListener("load", kickFace);
       }
 
       var bar = document.getElementById("progress");
